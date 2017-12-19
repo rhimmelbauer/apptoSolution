@@ -19,11 +19,11 @@ from django.contrib import admin
 from smartAtomizer import views
 
 urlpatterns = [
-	url(r'^$', views.home, name='dashboard'),
+	url(r'^$', views.dashboard, name='dashboard'),
     url(r'^clients', views.clients, name='clients'),
     url(r'^new_client', views.new_client, name='new_client'),
-    url(r'^zones', views.zones, name='zones'),
-    url(r'^new_zone', views.new_zone, name='new_zone'),
+    url(r'^zones/(?P<pk>\d+)/$', views.zones, name='zones'),
+    url(r'^new_zone/(?P<pk>\d+)/$', views.new_zone, name='new_zone'),
     url(r'^smart_atomizers', views.smart_atomizers, name='smart_atomizers'),
     url(r'^new_smart_atomizer', views.new_smart_atomizer, name='new_smart_atomizer'),
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),

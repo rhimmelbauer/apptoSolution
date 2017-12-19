@@ -5,7 +5,8 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item active"><a href="{% url 'zones' %}">Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
 {% endblock %}
 
 {% block content %}

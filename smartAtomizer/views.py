@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
 from .models import *
 
-def home(request):
+def dashboard(request):
 	return render(request, 'dashboard.html')
 
 def clients(request):
@@ -19,11 +19,22 @@ def new_client(request):
 		form = NewClientForm()
 	return render(request, 'new_client.html', {'form': form})
 
-def zones(request):
-	return render(request, 'zones.html')
+def zones(request, pk):
+	client = get_object_or_404(Client, pk=pk)
+	return render(request, 'zones.html', {'client': client})
 
-def new_zone(request):
-	return render(request, 'new_zone.html')
+def new_zone(request, pk):
+	client = get_object_or_404(Client, pk=pk)
+	if request.method == 'POST':
+		form = NewZoneForm(request.POST)
+		if form.is_valid():
+			newZone = form.save(commit=False)
+			newZone.cliente = client
+			newZone.save()
+			return redirect('zones', pk=client.pk)
+	else:
+		form = NewZoneForm
+	return render(request, 'new_zone.html', {'form': form, 'client': client})
 
 def smart_atomizers(request):
 	return render(request, 'smart_atomizers.html')

@@ -1,6 +1,25 @@
 from django import forms
 from .models import *
 
+class NewZoneForm(forms.ModelForm):
+	name = forms.CharField(
+				widget = forms.TextInput(
+					attrs={'placeholder': 'Write a name for the zone. Eg: Main Hall'}
+				),
+				max_length=50,
+				help_text='Max length is 50 characters'
+			)
+	description = forms.CharField(
+				widget = forms.Textarea(
+					attrs={'rows': 5, 'placeholder': 'Additinal Notes, eg: Atomizer placed left corner.'}
+				),
+				max_length=200,
+				help_text='Max length is 200 characters'
+			)
+	class Meta:
+		model = Zone
+		fields = ['name', 'description']
+
 class NewClientForm(forms.ModelForm):
 	name = forms.CharField(
 				widget = forms.TextInput(
