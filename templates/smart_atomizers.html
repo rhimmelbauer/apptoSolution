@@ -1,27 +1,24 @@
-{% load static %}<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>{% block title %}Manufacturing PixieBoard{% endblock %}</title>
-    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah|Roboto:700" rel="stylesheet"> 
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/appTest.css' %}">
-  </head>
-  <body>
+{% extends 'base.html' %}
 
-     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">Pixie Designs</a>
-      </div>
-    </nav>
+{% block title %}
 
-    <div class="container">
-      <ol class="breadcrumb my-4">
-        {% block breadcrumb %}
-        {% endblock %}
-      </ol>
-      {% block content %}
-      {% endblock %}
-    </div>
-  </body>
-</html>
+{% endblock %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Smart Atomizers</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+        <a href="{% url 'new_smart_atomizer' %}" class="btn btn-primary">New Smart Atomizer</a>
+        <a href="{% url 'assign_smart_atomizer' %}" class="btn btn-primary">Assign Atomizer</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  $( document ).ready(function() {
+    $("#navbarSmartAtomizers").addClass("active");
+});
+</script>
+{% endblock %}
