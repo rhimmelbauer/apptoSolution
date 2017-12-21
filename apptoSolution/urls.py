@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
+from accounts import views as accounts_views
 from smartAtomizer import views
 
 urlpatterns = [
 	url(r'^$', views.dashboard, name='dashboard'),
+    url(r'^signup/$', accounts_views.signup, name='signup'),
+    url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
     url(r'^new_client', views.new_client, name='new_client'),
     url(r'^clients', views.ClientsListView.as_view(), name='clients'),
     url(r'^control_client/(?P<pk>\d+)/$', views.control_client, name='control_client'),
