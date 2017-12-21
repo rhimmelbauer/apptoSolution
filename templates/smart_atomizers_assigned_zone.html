@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'control_zone' zone.pk %}" class="btn btn-primary">Control Zone</a>
+</div>
+<div class="mb-4">
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Serial</th>
+        <th>State</th>
+        <th>Timer Interval</th>
+        <th>Schedualed Interval</th>
+        <th>Atomizer Trigger Time</th>
+        <th>Volume</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for smart_atomizer in smart_atomizers %}
+        <tr>
+          <td>
+            <a>{{ smart_atomizer.serial }}</a>
+          </td>
+          <td>
+            {% if smart_atomizer.state == True %}
+              On
+            {% else %}
+              Off
+            {% endif %}
+          </td>
+          <td>
+            {{ smart_atomizer.timer_interval }}
+          </td>
+          <td>
+            {{ smart_atomizer.scheduled_interval }}
+          </td>
+          <td>
+            {{ smart_atomizer.atomizer_trigger_time }}
+          </td>
+          <td>
+            {{ smart_atomizer.volume }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

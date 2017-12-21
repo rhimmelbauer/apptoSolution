@@ -12,6 +12,41 @@
 <div class="mb-4">
         <a href="{% url 'new_client' %}" class="btn btn-primary">New Client</a>
 </div>
+<div class="mb-4">
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Client Name</th>
+        <th>Contact Name</th>
+        <th>Contact Phone #</th>
+        <th>Address</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for client in clients %}
+        <tr>
+          <td>
+            <a href="{% url 'zones' client.pk %}">{{ client.name }}</a>
+          </td>
+          <td>
+            {{ client.contact_name }}
+          </td>
+          <td>
+            {{ client.contact_phone }}
+          </td>
+          <td>
+            {{ client.address }}
+          </td>
+          <td>
+            {{ client.description }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
+</div>
 {% endblock %}
 
 {% block scripts %}

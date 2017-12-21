@@ -11,14 +11,33 @@
 
 {% block content %}
 <div class="mb-4">
-        <a href="{% url 'new_zone' %}" class="btn btn-primary">New Zone</a>
+    <a href="{% url 'new_zone' client.pk %}" class="btn btn-primary">New Zone</a>
+    <a href="{% url 'control_client' client.pk %}" class="btn btn-primary">Control Client</a>
+</div>
+<div class="mb-4">
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Client Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for zone in zones %}
+        <tr>
+          <td>
+            <a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a>
+          </td>
+          <td>
+            {{ zone.description }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script>
-  $( document ).ready(function() {
-    $("#navbarZones").addClass("active");
-});
-</script>
 {% endblock %}

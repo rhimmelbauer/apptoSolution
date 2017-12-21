@@ -20,9 +20,12 @@ from smartAtomizer import views
 
 urlpatterns = [
 	url(r'^$', views.dashboard, name='dashboard'),
-    url(r'^clients', views.clients, name='clients'),
     url(r'^new_client', views.new_client, name='new_client'),
-    url(r'^zones/(?P<pk>\d+)/$', views.zones, name='zones'),
+    url(r'^clients', views.ClientsListView.as_view(), name='clients'),
+    url(r'^control_client/(?P<pk>\d+)/$', views.control_client, name='control_client'),
+    url(r'^control_zone/(?P<pk>\d+)/$', views.control_zone, name='control_zone'),
+    url(r'^zones/(?P<pk>\d+)/$', views.ZonesListView.as_view(), name='zones'),
+    url(r'^zones/(?P<pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/$', views.SmartAtomizerAssignedZoneView.as_view(), name='smart_atomizers_assigned_zone'),
     url(r'^new_zone/(?P<pk>\d+)/$', views.new_zone, name='new_zone'),
     url(r'^smart_atomizers', views.smart_atomizers, name='smart_atomizers'),
     url(r'^new_smart_atomizer', views.new_smart_atomizer, name='new_smart_atomizer'),

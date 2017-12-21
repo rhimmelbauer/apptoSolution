@@ -64,3 +64,38 @@ class NewClientForm(forms.ModelForm):
 		          'contact_phone',
 		          'address',
 		          'description']
+
+class NewSmartAtomizerForm(forms.ModelForm):
+	serial = forms.CharField(
+				widget = forms.TextInput(
+					attrs={'placeholder': 'PixieBoard Serial'}
+				),
+				max_length=50,
+				help_text='Max length is 50 characters'
+			)	
+
+	class Meta:
+		model = SmartAtomizer
+		fields = ['serial']
+
+class ControlClientForm(forms.ModelForm):
+
+	class Meta:
+		model = SmartAtomizer
+		fields = ['state',
+				  'timer_interval',
+				  'scheduled_interval',
+				  'atomizer_trigger_time',
+				  'sync_interval',
+				  'log_information']
+
+class ControlZoneForm(forms.ModelForm):
+
+	class Meta:
+		model = SmartAtomizer
+		fields = ['state',
+				  'timer_interval',
+				  'scheduled_interval',
+				  'atomizer_trigger_time',
+				  'sync_interval',
+				  'log_information']
