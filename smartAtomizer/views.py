@@ -3,6 +3,7 @@ from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
+from django.views.generic import UpdateView
 from .forms import *
 from .models import *
 
@@ -113,3 +114,28 @@ def control_zone(request, pk):
 	else:
 		form = ControlZoneForm()
 	return render(request, 'control_zone.html', {'zone': zone, 'form': form})
+
+class UpdateClientView(UpdateView):
+	model = Client
+	form_class = NewClientForm
+	template_name = 'edit_client.html'
+	pk_url_kwarg = 'pk'
+	context_object_name = 'client'
+
+	def form_valid(self, form):
+		client = form.save(commit=False)
+		client.save()
+		return redirect('clients')
+
+
+class UpdateZoneView(UpdateView):
+	model = Zone
+	form_class = NewZoneForm
+	template_name = 'edit_zone.html'
+	pk_url_kwarg = 'pk'
+	context_object_name = 'zone'
+
+	def form_valid(self, form):
+		zone = form.save(commit=False)
+		zone.save()
+		return redirect('clients')
