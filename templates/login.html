@@ -1,6 +1,6 @@
 {% extends 'base_accounts.html' %}
 
-{% block title %}Log in to Django Boards{% endblock %}
+{% block title %}Log in to Appto{% endblock %}
 
 {% block content %}
   <div class="row justify-content-center">
@@ -10,6 +10,7 @@
           <h3 class="card-title">Log in</h3>
           <form method="post" novalidate>
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
             {% include 'includes/form.html' %}
             <button type="submit" class="btn btn-primary btn-block">Log in</button>
           </form>
@@ -20,7 +21,7 @@
       </div>
       <div class="text-center py-2">
         <small>
-          <a href="#" class="text-muted">Forgot your password?</a>
+          <a href="{% url 'password_reset' %}" class="text-muted">Forgot your password?</a>
         </small>
       </div>
     </div>

@@ -15,7 +15,6 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="{% url 'dashboard' %}">APPTO</a>
-    <a class="navbar-brand" href="#">{{ user.username }}</a>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
       {% if user.is_authenticated %}
       <ul class="navbar-nav ml-auto">
@@ -33,9 +32,6 @@
             {{ user.username }}
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-            <a class="dropdown-item" href="#">My account</a>
-            <a class="dropdown-item" href="#">Change password</a>
-            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
           </div>
         </li>
