@@ -1,26 +1,9 @@
-{% extends 'base.html' %}
-
-{% block title %}
-
-{% endblock %}
-
-{% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
-  <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a></li>
-{% endblock %}
-
-{% block content %}
-<div class="mb-4">
-    <a href="{% url 'control_zone' zone.pk %}" class="btn btn-primary">Control Zone</a>
-    <a href="{% url 'edit_zone' zone.pk %}" class="btn btn-primary">Edit Zone</a>
-    <a href="{% url 'add_smart_atomizer_zone' client.pk zone.pk  %}" class="btn btn-primary">Add Smart Atomizer</a>
-</div>
 <div class="mb-4">
   <table class="table table-striped">
     <thead class="thead">
       <tr>
         <th>Serial</th>
+        <th>Zone</th>
         <th>State</th>
         <th>Timer Interval</th>
         <th>Schedualed Interval</th>
@@ -33,6 +16,9 @@
         <tr>
           <td>
             <a>{{ smart_atomizer.serial }}</a>
+          </td>
+          <td>
+            <a>{{ smart_atomizer.zone }}</a>
           </td>
           <td>
             {% if smart_atomizer.state == True %}
@@ -59,7 +45,3 @@
   </table>
   {% include 'includes/pagination.html' %}
 </div>
-{% endblock %}
-
-{% block scripts %}
-{% endblock %}

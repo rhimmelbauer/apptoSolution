@@ -18,6 +18,9 @@ class Zone(models.Model):
 	def __str__(self):
 		return self.name
 
+	def count_smart_atomizers(self):
+		return SmartAtomizer.objects.filter(zone=self).count()
+
 class SmartAtomizer(models.Model):
 	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.CASCADE, blank = True, null = True)
 	serial = models.CharField(max_length = 150)

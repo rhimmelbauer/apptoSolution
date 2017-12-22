@@ -78,6 +78,7 @@ class NewSmartAtomizerForm(forms.ModelForm):
 		model = SmartAtomizer
 		fields = ['serial']
 
+
 class ControlClientForm(forms.ModelForm):
 
 	class Meta:

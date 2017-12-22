@@ -21,6 +21,7 @@
       <tr>
         <th>Client Name</th>
         <th>Description</th>
+        <th># Smart Atomizers</th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,9 @@
           </td>
           <td>
             {{ zone.description }}
+          </td>
+          <td style="text-align: center;">
+            {{ zone.count_smart_atomizers }}
           </td>
         </tr>
       {% endfor %}

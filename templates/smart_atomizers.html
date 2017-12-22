@@ -13,6 +13,9 @@
         <a href="{% url 'new_smart_atomizer' %}" class="btn btn-primary">New Smart Atomizer</a>
         <a href="{% url 'assign_smart_atomizer' %}" class="btn btn-primary">Assign Atomizer</a>
 </div>
+
+{% include 'includes/tableSmartAtomizer.html' %}
+
 {% endblock %}
 
 {% block scripts %}

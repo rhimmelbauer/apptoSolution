@@ -53,10 +53,10 @@ def new_smart_atomizer(request):
 		if form.is_valid():
 			newClient = form.save(commit=False)
 			newClient.save()
-			return redirect('clients')
+			return redirect('smart_atomizers')
 	else:
 		form = NewSmartAtomizerForm()
-	return render(request, 'new_client.html', {'form': form})
+	return render(request, 'new_smart_atomizer.html', {'form': form})
 
 @login_required
 def assign_smart_atomizer(request):
@@ -80,7 +80,36 @@ def control_zone(request, pk):
 		form = ControlZoneForm()
 	return render(request, 'control_zone.html', {'zone': zone, 'form': form})
 
+@login_required
+def add_smart_atomizer_zone(request, client_pk, zone_pk):
+	client = get_object_or_404(Client, pk=client_pk)
+	zone = get_object_or_404(Zone, pk=zone_pk)
+	if request.method == 'POST':
+		print(request.POST)
+		atomizersInTable = request.POST.getlist('atomizersTable')
+		print("-----------------------------Atomizers itn table______________________")
+		
+		for at in atomizersInTable:
+			smartAtomizer = SmartAtomizer.objects.get(pk=at)
+			smartAtomizer.zone = zone
+			smartAtomizer.save()
+		
+		return redirect('clients')
+	else:
+		queryset = SmartAtomizer.objects.filter(zone__isnull=True)
+		page = request.GET.get('page', 1)
+		paginator = Paginator(queryset, 20)
 
+		try:
+			smart_atomizers = paginator.page(page)
+		except PageNotAnInteger:
+			# fallback to the first page
+			smart_atomizers = paginator.page(1)
+		except EmptyPage:
+			# probably the user tried to add a page number
+			# in the url, so we fallback to the last page
+			smart_atomizers = paginator.page(paginator.num_pages)
+	return render(request, 'add_smart_atomizer_zone.html',{'client': client, 'zone': zone, 'smart_atomizers': smart_atomizers})
 
 ############################## GCBVs ########################################
 @method_decorator(login_required, name="dispatch")
@@ -105,6 +134,21 @@ class ZonesListView(ListView):
 		self.client = get_object_or_404(Client, pk=self.kwargs.get('pk'))
 		queryset = Zone.objects.filter(client = self.client)
 		return queryset
+
+@method_decorator(login_required, name="dispatch")
+class SmartAtomizersListView(ListView):
+	model = SmartAtomizer
+	context_object_name = 'smart_atomizers'
+	template_name = 'smart_atomizers.html'
+	paginate_by = 20
+
+	def get_context_data(self, **kwargs):
+		return super().get_context_data(**kwargs)
+
+	def get_queryset(self):
+		queryset = SmartAtomizer.objects.all().order_by('zone')
+		return queryset
+
 @method_decorator(login_required, name="dispatch")
 class SmartAtomizerAssignedZoneView(ListView):
 	print("Enterd class")

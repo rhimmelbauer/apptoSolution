@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a></li>
+        <li class="breadcrumb-item active"><a>Assign Smart Atomizer</a></li>
+{% endblock %}
+
+{% block content %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th style="text-align: center;">Checkbox</th>
+        <th style="text-align: center;">Serial</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for smart_atomizer in smart_atomizers %}
+        <tr>
+          <td style="text-align: center;">
+            <div class="form-check">
+              <input type="checkbox" name="atomizersTable" class="text-center" value="{{ smart_atomizer.pk }}">
+            </div>
+          </td>
+          <td style="text-align: center;">
+            <a>{{ smart_atomizer.serial }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if smart_atomizers.has_other_pages %}
+  <nav aria-label="Topics pagination" class="mb-4">
+    <ul class="pagination">
+      {% if smart_atomizers.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ smart_atomizers.previous_page_number }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+      {% endif %}
+
+      {% for page_num in smart_atomizers.paginator.page_range %}
+        {% if smart_atomizers.number == page_num %}
+          <li class="page-item active">
+            <span class="page-link">
+              {{ page_num }}
+              <span class="sr-only">(current)</span>
+            </span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if smart_atomizers.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ smart_atomizers.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">Next</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
