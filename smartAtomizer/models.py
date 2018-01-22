@@ -9,6 +9,8 @@ class Client(models.Model):
 
 	def __str__(self):
 		return self.name
+	class Meta:
+		db_table = 'client'
 
 class Zone(models.Model):
 	client = models.ForeignKey(Client, related_name = 'z_client', on_delete = models.CASCADE)

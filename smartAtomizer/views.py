@@ -15,6 +15,9 @@ from .models import *
 def dashboard(request):
 	return render(request, 'dashboard.html')
 
+def helloReq(request):
+        return render(request, 'dashboard.html')
+
 @login_required
 def new_client(request):
 	if request.method == 'POST':
