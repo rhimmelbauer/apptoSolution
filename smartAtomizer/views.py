@@ -6,6 +6,8 @@ from django.views.generic import ListView
 from django.views.generic import UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse, JsonResponse
+from datetime import datetime
 from .forms import *
 from .models import *
 
@@ -15,8 +17,15 @@ from .models import *
 def dashboard(request):
 	return render(request, 'dashboard.html')
 
-def helloReq(request):
-        return render(request, 'dashboard.html')
+def helloReq(request, pk, volume):
+	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
+	volumeLog = VolumeLog()
+	volumeLog.smart_atomizer = smartAtomizer
+	volumeLog.log_time = datetime.now()
+	volumeLog.volume = volume
+	volumeLog.save()
+	response = JsonResponse({'smart_atomizer': 'tst'})
+	return response
 
 @login_required
 def new_client(request):
