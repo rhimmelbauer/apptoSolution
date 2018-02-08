@@ -24,7 +24,7 @@ def helloReq(request, pk, volume):
 	volumeLog.log_time = datetime.now()
 	volumeLog.volume = volume
 	volumeLog.save()
-	response = JsonResponse({'smart_atomizer': 'tst'})
+	response = JsonResponse({'smart_atomizer': 'testing callback'})
 	return response
 
 @login_required
