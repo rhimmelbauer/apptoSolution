@@ -39,6 +39,7 @@ urlpatterns = [
     url(r'^new_zone/(?P<pk>\d+)/$', views.new_zone, name='new_zone'),
     url(r'^smart_atomizers', views.SmartAtomizersListView.as_view(), name='smart_atomizers'),
     url(r'^new_smart_atomizer', views.new_smart_atomizer, name='new_smart_atomizer'),
+    url(r'^pending_activations', views.PendingActivationsListView.as_view(), name='pending_activations'),
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),
     url(r'^admin/', admin.site.urls),
 ]

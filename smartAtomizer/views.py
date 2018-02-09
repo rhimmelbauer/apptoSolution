@@ -152,13 +152,27 @@ class SmartAtomizersListView(ListView):
 	model = SmartAtomizer
 	context_object_name = 'smart_atomizers'
 	template_name = 'smart_atomizers.html'
-	paginate_by = 20
+	paginate_by = 10
 
 	def get_context_data(self, **kwargs):
 		return super().get_context_data(**kwargs)
 
 	def get_queryset(self):
 		queryset = SmartAtomizer.objects.all().order_by('zone')
+		return queryset
+
+@method_decorator(login_required, name="dispatch")
+class PendingActivationsListView(ListView):
+	model = SmartAtomizer
+	context_object_name = 'pending_activations'
+	template_name = 'pending_activations.html'
+	paginate_by = 10
+
+	def get_context_data(self, **kwargs):
+		return super().get_context_data(**kwargs)
+
+	def get_queryset(self):
+		queryset = SmartAtomizer.objects.filter(activated = False)
 		return queryset
 
 @method_decorator(login_required, name="dispatch")
