@@ -33,6 +33,8 @@ class SmartAtomizer(models.Model):
 	sync_interval = models.CharField(max_length = 5, default = '01:00')
 	log_information = models.IntegerField(default = 255)
 	volume = models.IntegerField(default = 0)
+	activated = models.BooleanField(default = False)
+
 	def __str__(self):
 		return self.serial	
 
