@@ -164,7 +164,7 @@ class SmartAtomizersListView(ListView):
 @method_decorator(login_required, name="dispatch")
 class PendingActivationsListView(ListView):
 	model = SmartAtomizer
-	context_object_name = 'pending_activations'
+	context_object_name = 'smart_atomizers'
 	template_name = 'pending_activations.html'
 	paginate_by = 10
 
