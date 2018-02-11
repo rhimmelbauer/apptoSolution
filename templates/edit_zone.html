@@ -11,6 +11,6 @@
     {% csrf_token %}
     {% include 'includes/form.html' %}
     <button type="submit" class="btn btn-success">Save changes</button>
-    <a href="{% url 'clients' %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+    <a href="{% url 'smart_atomizers_assigned_zone' zone.client.pk zone.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
   </form>
 {% endblock %}

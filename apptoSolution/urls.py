@@ -19,27 +19,34 @@ from django.contrib.auth import views as auth_views
 
 from accounts import views as accounts_views
 from smartAtomizer import views
+from smartAtomizer import device_requests as device_requests
 
 urlpatterns = [
 	url(r'^$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^signup/$', accounts_views.signup, name='signup'),
     url(r'^login/$', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     url(r'^logout/$', auth_views.LogoutView.as_view(), name='logout'),
+
     url(r'^dashboard', views.dashboard, name='dashboard'),
-    url(r'^helloReq/(?P<pk>\d+)/(?P<volume>\d+)/$', views.helloReq, name='helloReq'),
+
     url(r'^new_client', views.new_client, name='new_client'),
     url(r'^clients', views.ClientsListView.as_view(), name='clients'),
     url(r'^control_client/(?P<pk>\d+)/$', views.control_client, name='control_client'),
     url(r'^control_zone/(?P<pk>\d+)/$', views.control_zone, name='control_zone'),
-    url(r'^zones/(?P<pk>\d+)/$', views.ZonesListView.as_view(), name='zones'),
-    url(r'^edit_client/(?P<pk>\d+)/$', views.UpdateClientView.as_view(), name='edit_client'),
-    url(r'^edit_zone/(?P<pk>\d+)/$', views.UpdateZoneView.as_view(), name='edit_zone'),
-    url(r'^zones/(?P<pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/$', views.SmartAtomizerAssignedZoneView.as_view(), name='smart_atomizers_assigned_zone'),
+    url(r'^edit_client/(?P<client_pk>\d+)/$', views.UpdateClientView.as_view(), name='edit_client'),
+    
+    url(r'^zones/(?P<client_pk>\d+)/$', views.ZonesListView.as_view(), name='zones'),
+    url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/$', views.SmartAtomizerAssignedZoneView.as_view(), name='smart_atomizers_assigned_zone'),
+    url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/edit_zone/$', views.UpdateZoneView.as_view(), name='edit_zone'),
+    url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/edit_smart_atomizer_zone/(?P<smart_atomizer_pk>\d+)/$', views.UpdateSmartAtomizerZoneView.as_view(), name='edit_smart_atomizer_zone'),
     url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/add_smart_atomizer_zone/$', views.add_smart_atomizer_zone, name='add_smart_atomizer_zone'),
-    url(r'^new_zone/(?P<pk>\d+)/$', views.new_zone, name='new_zone'),
+    url(r'^new_zone/(?P<client_pk>\d+)/$', views.new_zone, name='new_zone'),
+
     url(r'^smart_atomizers', views.SmartAtomizersListView.as_view(), name='smart_atomizers'),
     url(r'^new_smart_atomizer', views.new_smart_atomizer, name='new_smart_atomizer'),
+    url(r'^edit_smart_atomizer/(?P<smart_atomizer_pk>\d+)/$', views.UpdateSmartAtomizerView.as_view(), name='edit_smart_atomizer'),
     url(r'^pending_activations', views.PendingActivationsListView.as_view(), name='pending_activations'),
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),
     url(r'^admin/', admin.site.urls),
+    url(r'^test_volume_log/(?P<pk>\d+)/(?P<volume>\d+)/$', device_requests.test_volume_log, name='test_volume_log'),
 ]

@@ -11,44 +11,23 @@
 {% block content %}
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-	google.charts.load('current', {'packages':['gauge']});
-	google.charts.setOnLoadCallback(drawChart);
-
-	function drawChart() {
-
-		var data = google.visualization.arrayToDataTable([
-		['Label', 'Value'],
-		['Volume', 80],
-		]);
-
-		var options = {
-			width: 500, height: 240,
-			redFrom: 0, redTo: 10,
-			yellowFrom: 10, yellowTo: 25,
-			minorTicks: 5
-		};
-
-		var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-		chart.draw(data, options);
-
-		setInterval(function() {
-			data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-			chart.draw(data, options);
-		}, 13000);
-	}
-</script>
-<script type="text/javascript">
 google.charts.load("current", {packages:['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-    ["Client", "Volume %"],
-    ["Hotel Mr. H/F", 80],
-    ["Hotel California", 10],
-    ["HSBC Polanco", 19],
-    ["Hotel Angus", 50]
-  ]);
+  console.log("Entered Draw");
+  var clientsTemp = []
+  clientsTemp.push(["Client", "Volume %"])
+  {% for client in clients %}
+  	console.log("Inside For")
+  	var row = []
+  	row.push({{client|safe}}['name'])
+  	row.push({{client|safe}}['volume'])
+  	console.log(row)
+  	clientsTemp.push(row)
+  {% endfor %}
+
+
+  var data = google.visualization.arrayToDataTable(clientsTemp);
 
   var view = new google.visualization.DataView(data);
   view.setColumns([0, 1]);
@@ -59,17 +38,21 @@ function drawChart() {
     height: 400,
     bar: {groupWidth: "95%"},
     legend: { position: "none" },
+    vAxis: {
+    	maxValue: 100,
+    	minValue: 0
+    }
   };
   var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
   chart.draw(view, options);
 }
 </script>
-
-<div class="mb-12"><h2 style="margin: 25px;">Active Atomizers</h2></div>
-<div class="mb-12"><div id="chart_div" align="center"></div></div>
-
 <div class="mb-12 "><h2 stle="margin: 25px;">Clients Liquid Volume</h2></div>
 <div class="mb-12"><div id="columnchart_values" style="width: 900px; height: 300px;" align="center"></div></div>
+
+<div class="mb-12"><h2 style="margin: 25px;">Active Atomizers</h2></div>
+
+
 {% endblock %}
 
 {% block scripts %}

@@ -16,7 +16,7 @@
       {% for smart_atomizer in smart_atomizers %}
         <tr>
           <td>
-            <a>{{ smart_atomizer.serial }}</a>
+            <a href="{% url 'edit_smart_atomizer' smart_atomizer.pk %}">{{ smart_atomizer.serial }}</a>
           </td>
           <td>
             <a>{{ smart_atomizer.zone }}</a>

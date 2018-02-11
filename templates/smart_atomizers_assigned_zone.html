@@ -13,7 +13,7 @@
 {% block content %}
 <div class="mb-4">
     <a href="{% url 'control_zone' zone.pk %}" class="btn btn-primary">Control Zone</a>
-    <a href="{% url 'edit_zone' zone.pk %}" class="btn btn-primary">Edit Zone</a>
+    <a href="{% url 'edit_zone' client.pk zone.pk %}" class="btn btn-primary">Edit Zone</a>
     <a href="{% url 'add_smart_atomizer_zone' client.pk zone.pk  %}" class="btn btn-primary">Add Smart Atomizer</a>
 </div>
 <div class="mb-4">
@@ -21,18 +21,23 @@
     <thead class="thead">
       <tr>
         <th>Serial</th>
+        <th>Zone</th>
         <th>State</th>
         <th>Timer Interval</th>
         <th>Schedualed Interval</th>
         <th>Atomizer Trigger Time</th>
         <th>Volume</th>
+  <th>Activated</th>
       </tr>
     </thead>
     <tbody>
       {% for smart_atomizer in smart_atomizers %}
         <tr>
           <td>
-            <a>{{ smart_atomizer.serial }}</a>
+            <a href="{% url 'edit_smart_atomizer_zone' client.pk zone.pk smart_atomizer.pk %}">{{ smart_atomizer.serial }}</a>
+          </td>
+          <td>
+            <a>{{ smart_atomizer.zone }}</a>
           </td>
           <td>
             {% if smart_atomizer.state == True %}
@@ -53,12 +58,16 @@
           <td>
             {{ smart_atomizer.volume }}
           </td>
+          <td>
+            {{ smart_atomizer.activated }}
+          </td>
         </tr>
       {% endfor %}
     </tbody>
   </table>
   {% include 'includes/pagination.html' %}
 </div>
+
 {% endblock %}
 
 {% block scripts %}

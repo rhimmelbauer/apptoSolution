@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 
 class Client(models.Model):
 	name = models.CharField(max_length = 50)
@@ -9,8 +10,29 @@ class Client(models.Model):
 
 	def __str__(self):
 		return self.name
-	class Meta:
-		db_table = 'client'
+
+
+	def smart_atomizer_client_volume(self):
+		zones = Zone.objects.filter(client=self)
+		volume = 0
+		numberOfAtomizers = 0
+		print("num of zones")
+		print(len(zones))
+		for zone in zones:
+			numberOfAtomizers = numberOfAtomizers + zone.count_smart_atomizers()
+			if len(SmartAtomizer.objects.filter(zone=zone)) > 0:
+				volume = volume + SmartAtomizer.objects.filter(zone=zone).aggregate(Sum('volume'))['volume__sum']
+
+		if len(zones) > 0:
+			if volume == 0:
+				return 0
+			else:
+				totalVolume = 100 * numberOfAtomizers
+				volumePercent = int((volume/totalVolume)*100)
+				return volumePercent
+		else:
+			return 0
+
 
 class Zone(models.Model):
 	client = models.ForeignKey(Client, related_name = 'z_client', on_delete = models.CASCADE)
@@ -24,7 +46,7 @@ class Zone(models.Model):
 		return SmartAtomizer.objects.filter(zone=self).count()
 
 class SmartAtomizer(models.Model):
-	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.CASCADE, blank = True, null = True)
+	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
 	serial = models.CharField(max_length = 150)
 	state = models.BooleanField(default = False)
 	timer_interval = models.CharField(max_length = 5, default = '01:00')
@@ -37,6 +59,7 @@ class SmartAtomizer(models.Model):
 
 	def __str__(self):
 		return self.serial	
+
 
 class ErrorLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'el_smart_atomizer', on_delete = models.CASCADE)

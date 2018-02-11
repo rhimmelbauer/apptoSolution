@@ -76,7 +76,14 @@ class NewSmartAtomizerForm(forms.ModelForm):
 
 	class Meta:
 		model = SmartAtomizer
-		fields = ['serial']
+		fields = ['serial',
+				  'state',
+				  'timer_interval',
+				  'scheduled_interval',
+				  'atomizer_trigger_time',
+				  'sync_interval',
+				  'volume',
+				  'activated']
 
 
 class ControlClientForm(forms.ModelForm):
