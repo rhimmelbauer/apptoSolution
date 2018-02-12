@@ -107,3 +107,11 @@ class ControlZoneForm(forms.ModelForm):
 				  'atomizer_trigger_time',
 				  'sync_interval',
 				  'log_information']
+
+
+class EditAlertsForm(forms.ModelForm):
+
+	class Meta:
+		model = Alert
+		fields = ['volume_warning',
+				  'sync_time_warning']

@@ -12,7 +12,8 @@
 
 {% block content %}
 <div class="mb-4">
-    <a  class="btn btn-danger" style="color: white;">Delete</a>
+    <a href="{% url 'edit_alerts_smart_atomizer_zone' smart_atomizer.zone.client.pk smart_atomizer.zone.pk smart_atomizer.pk%}" class="btn btn-primary" style="color: white;">Edit Alerts</a>
+    <a href="{% url 'remove_from_zone' smart_atomizer.pk %}" class="btn btn-warning" style="color: white;">Remove From Zone</a>
 </div>
   <form method="post" class="mb-4" novalidate>
     {% csrf_token %}

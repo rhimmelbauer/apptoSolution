@@ -16,8 +16,6 @@ class Client(models.Model):
 		zones = Zone.objects.filter(client=self)
 		volume = 0
 		numberOfAtomizers = 0
-		print("num of zones")
-		print(len(zones))
 		for zone in zones:
 			numberOfAtomizers = numberOfAtomizers + zone.count_smart_atomizers()
 			if len(SmartAtomizer.objects.filter(zone=zone)) > 0:
@@ -45,6 +43,16 @@ class Zone(models.Model):
 	def count_smart_atomizers(self):
 		return SmartAtomizer.objects.filter(zone=self).count()
 
+	def sum_zone_volume(self):
+		volume = SmartAtomizer.objects.filter(zone=self).aggregate(Sum('volume'))['volume__sum']
+		numberOfAtomizers = SmartAtomizer.objects.filter(zone=self).count()
+		if (volume == 0) | (numberOfAtomizers == 0) | (volume == None):
+				return 0
+		else:
+			totalVolume = 100 * numberOfAtomizers
+			volumePercent = (volume/totalVolume)*100
+			return volumePercent
+
 class SmartAtomizer(models.Model):
 	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
 	serial = models.CharField(max_length = 150)
@@ -62,6 +70,10 @@ class SmartAtomizer(models.Model):
 	def __str__(self):
 		return self.serial	
 
+class Alert(models.Model):
+	smart_atomizer = models.OneToOneField(SmartAtomizer, on_delete = models.CASCADE, primary_key=True)
+	volume_warning = models.IntegerField(default = 45)
+	sync_time_warning = models.CharField(max_length = 5, default = '0.25')
 
 class ErrorLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'el_smart_atomizer', on_delete = models.CASCADE)

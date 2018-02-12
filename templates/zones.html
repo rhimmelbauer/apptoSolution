@@ -11,9 +11,10 @@
 
 {% block content %}
 <div class="mb-4">
-    <a href="{% url 'new_zone' client.pk %}" class="btn btn-primary">New Zone</a>
-    <a href="{% url 'control_client' client.pk %}" class="btn btn-primary">Control Client</a>
     <a href="{% url 'edit_client' client.pk %}" class="btn btn-primary">Edit Client</a>
+    <a href="{% url 'edit_alerts_client' client.pk %}" class="btn btn-primary">Edit Alerts</a>
+    <a href="{% url 'control_client' client.pk %}" class="btn btn-primary">Control Client</a>
+    <a href="{% url 'new_zone' client.pk %}" class="btn btn-primary">New Zone</a>
 </div>
 <div class="mb-4">
   <table class="table table-striped">
@@ -22,6 +23,7 @@
         <th>Client Name</th>
         <th>Description</th>
         <th># Smart Atomizers</th>
+        <th>Volume Level</th>
       </tr>
     </thead>
     <tbody>
@@ -35,6 +37,9 @@
           </td>
           <td style="text-align: center;">
             {{ zone.count_smart_atomizers }}
+          </td>
+          <td style="text-align: center;">
+            {{ zone.sum_zone_volume }}%
           </td>
         </tr>
       {% endfor %}

@@ -28,6 +28,9 @@ def test_activation(request, serial):
 		smartAtomizerDevice = SmartAtomizer()
 		smartAtomizerDevice.serial = serial
 		smartAtomizerDevice.save()
+		alert = Alert()
+		alert.smart_atomizer = smartAtomizerDevice
+		alert.save()
 		data = serializers.serialize('json', [smartAtomizerDevice,])
 		return HttpResponse(data, content_type="application/json")
 

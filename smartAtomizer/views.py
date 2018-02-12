@@ -16,7 +16,6 @@ from .models import *
 @login_required
 def dashboard(request):
 	clients = Client.objects.all()
-	print(len(Client.objects.all()))
 	clientsTotalVolume = []
 	for client in clients:
 		clientTotalVolume = {'name': client.name, 'volume': client.smart_atomizer_client_volume()}
@@ -106,6 +105,61 @@ def control_client(request, client_pk):
 	return render(request, 'control_client.html', {'client': client, 'form': form})
 
 @login_required
+def edit_alerts_client(request, client_pk):
+	client = get_object_or_404(Client, pk=client_pk)
+	if request.method == 'POST':
+		form = EditAlertsForm(request.POST)
+		if form.is_valid():
+			alerts = form.save(commit=False)
+			clientZones = Zone.objects.filter(client=client)
+			for zone in clientZones:
+				zoneSmartAtomizers = SmartAtomizer.objects.filter(zone=zone)
+				for smartAtomizer in zoneSmartAtomizers:
+					alert = Alert.objects.get(smart_atomizer=smartAtomizer)
+					alert.volume_warning = alerts.volume_warning
+					alert.sync_time_warning = alerts.sync_time_warning
+					alert.save()
+			return redirect('zones', client.pk)
+	else:
+		form = EditAlertsForm()
+	return render(request, 'edit_alerts_client.html', {'client': client, 'form': form})
+
+@login_required
+def edit_alerts_zone(request, client_pk, zone_pk):
+	client = get_object_or_404(Client, pk=client_pk)
+	zone = get_object_or_404(Zone, pk=zone_pk)
+	if request.method == 'POST':
+		form = EditAlertsForm(request.POST)
+		if form.is_valid():
+			alerts = form.save(commit=False)
+			zoneSmartAtomizers = SmartAtomizer.objects.filter(zone=zone)
+			for smartAtomizer in zoneSmartAtomizers:
+				alert = Alert.objects.get(smart_atomizer=smartAtomizer)
+				alert.volume_warning = alerts.volume_warning
+				alert.sync_time_warning = alerts.sync_time_warning
+				alert.save()
+			return redirect('smart_atomizers_assigned_zone', client.pk, zone.pk)
+	else:
+		form = EditAlertsForm()
+	return render(request, 'edit_alerts_zone.html', {'client': client, 'zone': zone, 'form': form})
+
+@login_required
+def edit_alerts_smart_atomizer_zone(request, client_pk, zone_pk, smart_atomizer_pk):
+	smart_atomizer = get_object_or_404(SmartAtomizer, pk=smart_atomizer_pk)
+	if request.method == 'POST':
+		form = EditAlertsForm(request.POST)
+		if form.is_valid():
+			alerts = form.save(commit=False)
+			alert = Alert.objects.get(smart_atomizer=smart_atomizer)
+			alert.volume_warning = alerts.volume_warning
+			alert.sync_time_warning = alerts.sync_time_warning
+			alert.save()
+			return redirect('edit_smart_atomizer_zone', smart_atomizer.zone.client.pk, smart_atomizer.zone.pk, smart_atomizer.pk)
+	else:
+		form = EditAlertsForm()
+	return render(request, 'edit_alerts_smart_atomizer_zone.html', {'client': smart_atomizer.zone.client, 'zone': smart_atomizer.zone, 'smart_atomizer': smart_atomizer, 'form': form})
+
+@login_required
 def control_zone(request, client_pk, zone_pk):
 	client = get_object_or_404(Client, pk=client_pk)
 	zone = get_object_or_404(Zone, pk=zone_pk)
@@ -157,6 +211,48 @@ def add_smart_atomizer_zone(request, client_pk, zone_pk):
 			# in the url, so we fallback to the last page
 			smart_atomizers = paginator.page(paginator.num_pages)
 	return render(request, 'add_smart_atomizer_zone.html',{'client': client, 'zone': zone, 'smart_atomizers': smart_atomizers})
+
+
+@login_required
+def delete_client(request, client_pk):
+	client = get_object_or_404(Client, pk=client_pk)
+	zones = Zone.objects.filter(client=client)
+	for zone in zones:
+		smartAtomizers = SmartAtomizer.objects.filter(zone=zone)
+		for smartAtomizer in smartAtomizers:
+			smartAtomizer.zone = None
+			smartAtomizer.state = False
+			smartAtomizer.activated = False
+			smartAtomizer.save()
+		zone.delete()
+	client.delete()
+	return redirect('clients')
+
+def delete_zone(request, zone_pk):
+	zone = get_object_or_404(Zone, pk=zone_pk)
+	client_pk = zone.client.pk
+	smartAtomizers = SmartAtomizer.objects.filter(zone=zone)
+	for smartAtomizer in smartAtomizers:
+		smartAtomizer.zone = None
+		smartAtomizer.state = False
+		smartAtomizer.activated = False
+		smartAtomizer.save()
+
+	zone.delete()
+	return redirect('zones', client_pk)
+
+def delete_smart_atomizer(request, smart_atomizer_pk):
+	zone = get_object_or_404(SmartAtomizer, pk=smart_atomizer_pk)
+	zone.delete()
+	return redirect('smart_atomizers')
+
+def remove_from_zone(request, smart_atomizer_pk):
+	smartAtomizer = get_object_or_404(SmartAtomizer, pk=smart_atomizer_pk)
+	client_pk = smartAtomizer.zone.client.pk
+	zone_pk = smartAtomizer.zone.pk
+	smartAtomizer.zone = None
+	smartAtomizer.save()
+	return redirect('smart_atomizers_assigned_zone', client_pk, zone_pk)
 
 ############################## GCBVs ########################################
 

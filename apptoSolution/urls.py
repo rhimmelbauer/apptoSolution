@@ -35,12 +35,20 @@ urlpatterns = [
     
     url(r'^zones/(?P<client_pk>\d+)/$', views.ZonesListView.as_view(), name='zones'),
     url(r'^zones/(?P<client_pk>\d+)/control_client/$', views.control_client, name='control_client'),
+    url(r'^zones/(?P<client_pk>\d+)/edit_alerts_client/$', views.edit_alerts_client, name='edit_alerts_client'),
     url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/$', views.SmartAtomizerAssignedZoneView.as_view(), name='smart_atomizers_assigned_zone'),
     url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/control_zone/$', views.control_zone, name='control_zone'),
+    url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/edit_alerts_zone/$', views.edit_alerts_zone, name='edit_alerts_zone'),
     url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/edit_zone/$', views.UpdateZoneView.as_view(), name='edit_zone'),
     url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/edit_smart_atomizer_zone/(?P<smart_atomizer_pk>\d+)/$', views.UpdateSmartAtomizerZoneView.as_view(), name='edit_smart_atomizer_zone'),
+    url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/edit_smart_atomizer_zone/(?P<smart_atomizer_pk>\d+)/edit_alerts_smart_atomizer_zone/$', views.edit_alerts_smart_atomizer_zone, name='edit_alerts_smart_atomizer_zone'),
     url(r'^zones/(?P<client_pk>\d+)/smart_atomizers_assigned_zone/(?P<zone_pk>\d+)/add_smart_atomizer_zone/$', views.add_smart_atomizer_zone, name='add_smart_atomizer_zone'),
     url(r'^new_zone/(?P<client_pk>\d+)/$', views.new_zone, name='new_zone'),
+
+    url(r'^delete_client/(?P<client_pk>\d+)/$', views.delete_client, name='delete_client'),
+    url(r'^delete_zone/(?P<zone_pk>\d+)/$', views.delete_zone, name='delete_zone'),
+    url(r'^delete_smart_atomizer/(?P<smart_atomizer_pk>\d+)/$', views.delete_smart_atomizer, name='delete_smart_atomizer'),
+    url(r'^remove_from_zone/(?P<smart_atomizer_pk>\d+)/$', views.remove_from_zone, name='remove_from_zone'),
 
     url(r'^smart_atomizers', views.SmartAtomizersListView.as_view(), name='smart_atomizers'),
     url(r'^new_smart_atomizer', views.new_smart_atomizer, name='new_smart_atomizer'),

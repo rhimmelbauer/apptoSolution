@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a></li>
+  <li class="breadcrumb-item active"><a>Configure Zone Smart Atomizers Alerts</a></li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+
