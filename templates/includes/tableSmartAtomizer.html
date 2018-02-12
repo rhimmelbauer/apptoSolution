@@ -3,6 +3,7 @@
     <thead class="thead">
       <tr>
         <th>Serial</th>
+        <th>Client</th>
         <th>Zone</th>
         <th>State</th>
         <th>Timer Interval</th>
@@ -19,6 +20,9 @@
             <a href="{% url 'edit_smart_atomizer' smart_atomizer.pk %}">{{ smart_atomizer.serial }}</a>
           </td>
           <td>
+            <a>{{ smart_atomizer.zone.client.name }}</a>
+          </td>
+          <td>
             <a>{{ smart_atomizer.zone }}</a>
           </td>
           <td>
@@ -29,13 +33,13 @@
             {% endif %}
           </td>
           <td>
-            {{ smart_atomizer.timer_interval }}
+            {{ smart_atomizer.timer_interval }}H
           </td>
           <td>
             {{ smart_atomizer.scheduled_interval }}
           </td>
           <td>
-            {{ smart_atomizer.atomizer_trigger_time }}
+            {{ smart_atomizer.atomizer_trigger_time }}s
           </td>
           <td>
             {{ smart_atomizer.volume }}

@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item active"><a>Control All Smart Atomizers For: {{ client.name }}</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item active"><a>Configure Clients Smart Atomizers</a></li>
 {% endblock %}
 
 {% block content %}

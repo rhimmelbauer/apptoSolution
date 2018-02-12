@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% block breadcrumb %}
+  
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' smart_atomizer.zone.client.pk %}">{{ smart_atomizer.zone.client.name }} Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers_assigned_zone' smart_atomizer.zone.client.pk smart_atomizer.zone.pk %}">{{ smart_atomizer.zone.name }}</a></li>
+  <li class="breadcrumb-item active"><a>{{ smart_atomizer.serial }}</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a  class="btn btn-danger" style="color: white;">Delete</a>
+</div>
+  <form method="post" class="mb-4" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save changes</button>
+    <a href="{% url 'smart_atomizers_assigned_zone' smart_atomizer.zone.client.pk smart_atomizer.zone.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+  </form>
+{% endblock %}

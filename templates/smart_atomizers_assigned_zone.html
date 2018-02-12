@@ -12,7 +12,7 @@
 
 {% block content %}
 <div class="mb-4">
-    <a href="{% url 'control_zone' zone.pk %}" class="btn btn-primary">Control Zone</a>
+    <a href="{% url 'control_zone' client.pk zone.pk %}" class="btn btn-primary">Control Zone</a>
     <a href="{% url 'edit_zone' client.pk zone.pk %}" class="btn btn-primary">Edit Zone</a>
     <a href="{% url 'add_smart_atomizer_zone' client.pk zone.pk  %}" class="btn btn-primary">Add Smart Atomizer</a>
 </div>

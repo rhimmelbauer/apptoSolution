@@ -72,22 +72,49 @@ def assign_smart_atomizer(request):
 	return render(request, 'assign_smart_atomizer.html')
 
 @login_required
-def control_client(request, pk):
-	client = get_object_or_404(Client, pk=pk)
+def control_client(request, client_pk):
+	client = get_object_or_404(Client, pk=client_pk)
 	if request.method == 'POST':
-		return redirect('dashboard')
+		form = ControlClientForm(request.POST)
+		if form.is_valid():
+			smartAtomizerSettings = form.save(commit=False)
+			clientZones = Zone.objects.filter(client=client)
+			for zone in clientZones:
+				zoneSmartAtomizers = SmartAtomizer.objects.filter(zone=zone)
+				for smartAtomizer in zoneSmartAtomizers:
+					smartAtomizer.state = smartAtomizerSettings.state
+					smartAtomizer.timer_interval = smartAtomizerSettings.timer_interval
+					smartAtomizer.scheduled_interval = smartAtomizerSettings.scheduled_interval
+					smartAtomizer.atomizer_trigger_time = smartAtomizerSettings.atomizer_trigger_time
+					smartAtomizer.sync_interval = smartAtomizerSettings.sync_interval
+					smartAtomizer.log_information = smartAtomizerSettings.log_information
+					smartAtomizer.save()
+			return redirect('zones', client.pk)
 	else:
 		form = ControlClientForm()
 	return render(request, 'control_client.html', {'client': client, 'form': form})
 
 @login_required
-def control_zone(request, pk):
-	zone = get_object_or_404(Zone, pk=pk)
+def control_zone(request, client_pk, zone_pk):
+	client = get_object_or_404(Client, pk=client_pk)
+	zone = get_object_or_404(Zone, pk=zone_pk)
 	if request.method == 'POST':
-		return redirect('dashboard')
+		form = ControlZoneForm(request.POST)
+		if form.is_valid():
+			smartAtomizerSettings = form.save(commit=False)
+			zoneSmartAtomizers = SmartAtomizer.objects.filter(zone=zone)
+			for smartAtomizer in zoneSmartAtomizers:
+				smartAtomizer.state = smartAtomizerSettings.state
+				smartAtomizer.timer_interval = smartAtomizerSettings.timer_interval
+				smartAtomizer.scheduled_interval = smartAtomizerSettings.scheduled_interval
+				smartAtomizer.atomizer_trigger_time = smartAtomizerSettings.atomizer_trigger_time
+				smartAtomizer.sync_interval = smartAtomizerSettings.sync_interval
+				smartAtomizer.log_information = smartAtomizerSettings.log_information
+				smartAtomizer.save()
+			return redirect('smart_atomizers_assigned_zone', client.pk, zone.pk)
 	else:
 		form = ControlZoneForm()
-	return render(request, 'control_zone.html', {'zone': zone, 'form': form})
+	return render(request, 'control_zone.html', {'client':client, 'zone': zone, 'form': form})
 
 @login_required
 def add_smart_atomizer_zone(request, client_pk, zone_pk):
@@ -157,7 +184,7 @@ class SmartAtomizersListView(ListView):
 		return super().get_context_data(**kwargs)
 
 	def get_queryset(self):
-		queryset = SmartAtomizer.objects.all().order_by('zone')
+		queryset = SmartAtomizer.objects.order_by('zone')
 		return queryset
 
 @method_decorator(login_required, name="dispatch")
@@ -220,7 +247,7 @@ class UpdateSmartAtomizerView(UpdateView):
 
 	def form_valid(self, form):
 		smartAtomizer = form.save(commit=False)
-		form_valid.save()
+		smartAtomizer.save()
 		return redirect('smart_atomizers')
 
 @method_decorator(login_required, name="dispatch")
@@ -232,9 +259,9 @@ class UpdateSmartAtomizerZoneView(UpdateView):
 	context_object_name = 'smart_atomizer'
 
 	def form_valid(self, form):
-		form_valid = form.save(commit=False)
-		form_valid.save()
-		return redirect('zones', client_pk=smart_atomizer.zone.client.pk)
+		smartAtomizer = form.save(commit=False)
+		smartAtomizer.save()
+		return redirect('smart_atomizers_assigned_zone', client_pk=smartAtomizer.zone.client.pk, zone_pk=smartAtomizer.zone.pk)
 
 @method_decorator(login_required, name="dispatch")
 class UpdateZoneView(UpdateView):
