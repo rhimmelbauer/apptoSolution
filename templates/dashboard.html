@@ -14,18 +14,14 @@
 google.charts.load("current", {packages:['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
-  console.log("Entered Draw");
   var clientsTemp = []
   clientsTemp.push(["Client", "Volume %"])
   {% for client in clients %}
-  	console.log("Inside For")
   	var row = []
   	row.push({{client|safe}}['name'])
   	row.push({{client|safe}}['volume'])
-  	console.log(row)
   	clientsTemp.push(row)
   {% endfor %}
-
 
   var data = google.visualization.arrayToDataTable(clientsTemp);
 
@@ -47,15 +43,77 @@ function drawChart() {
   chart.draw(view, options);
 }
 </script>
-<div class="mb-12 "><h2 stle="margin: 25px;">Clients Liquid Volume</h2></div>
-<div class="mb-12"><div id="columnchart_values" style="width: 900px; height: 300px;" align="center"></div></div>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-<div class="mb-12"><h2 style="margin: 25px;">Active Atomizers</h2></div>
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Active/Inactive', 'Percent'],
+          ['Active',     {{activeDevice|safe}}['active']],
+          ['Inactive',   {{activeDevice|safe}}['inactive']]
+        ]);
+
+        var options = {
+          title: ''
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+<div class="mb-12 ">
+  <h2 style="margin: 20px;">Clients Liquid Volume</h2>
+</div>
+<div class="mb-12">
+  <div id="columnchart_values" style="width: 900px; height: 400px;" align="center"></div>
+</div>
+
+<div class="mb-12">
+  <h2 style="margin: 20px;">Active Atomizers</h2>
+</div>
+<div class="mb-12">
+  <div id="piechart" style="width: 900px; height: 500px;" align="center"></div>
+</div>
+
+<div class="mb-12">
+  <h2 style="margin: 20px;">Location Of Smart Atomizers</h2>
+</div>
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2"></div>
+  <div id="map" class="col-12 col-md-auto" style="width:600px;height:400px;"></div>
+    <div class="col col-lg-2"></div>
+</div>
 
 
 {% endblock %}
 
 {% block scripts %}
+<script type="text/javascript">
+function myMap() {
+    var myCenter = new google.maps.LatLng(37.427475,-122.16971);
+    
+    var mapCanvas = document.getElementById("map");
 
+    var mapOptions = {center: myCenter, zoom: 10};
+
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+
+    {% for deviceLocation in deviceLocations %}
+      var serial = "{{deviceLocation.serial|safe}}";
+      var myCenter = new google.maps.LatLng({{deviceLocation.lat|safe}}, {{deviceLocation.long|safe}});
+      
+      var marker = new google.maps.Marker({
+        position:myCenter,
+        title: serial
+      });
+      marker.setMap(map);
+
+    {% endfor %}
+}
+</script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWbvx5QX5B97QWCFiqhnmHSJe6WDcAuTI&callback=myMap"
+  type="text/javascript"></script>
 {% endblock %}
 

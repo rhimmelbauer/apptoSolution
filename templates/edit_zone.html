@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block content %}
+<div class="mb-4">
+    <a  class="btn btn-danger" style="color: white;">Delete</a>
+</div>
   <form method="post" class="mb-4" novalidate>
     {% csrf_token %}
     {% include 'includes/form.html' %}

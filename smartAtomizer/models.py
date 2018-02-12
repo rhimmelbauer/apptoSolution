@@ -49,13 +49,15 @@ class SmartAtomizer(models.Model):
 	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
 	serial = models.CharField(max_length = 150)
 	state = models.BooleanField(default = False)
-	timer_interval = models.CharField(max_length = 5, default = '3')
+	timer_interval = models.CharField(max_length = 5, default = '0.5')
 	scheduled_interval = models.CharField(max_length = 200, default = '07:00,23:00')
 	atomizer_trigger_time = models.IntegerField(default = 1)
-	sync_interval = models.CharField(max_length = 5, default = '01:00')
+	sync_interval = models.CharField(max_length = 5, default = '0.25')
 	log_information = models.IntegerField(default = 255)
 	volume = models.IntegerField(default = 0)
 	activated = models.BooleanField(default = False)
+	latitude = models.DecimalField(default=37.397987, max_digits=10, decimal_places=6, blank=True, null=True)
+	longitude = models.DecimalField(default=-121.983552, max_digits=10, decimal_places=6, blank=True, null=True)
 
 	def __str__(self):
 		return self.serial	

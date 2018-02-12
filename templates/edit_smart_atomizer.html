@@ -10,10 +10,40 @@
 <div class="mb-4">
     <a  class="btn btn-danger" style="color: white;">Delete</a>
 </div>
-  <form method="post" class="mb-4" novalidate>
-    {% csrf_token %}
-    {% include 'includes/form.html' %}
-    <button type="submit" class="btn btn-success">Save changes</button>
-    <a href="{% url 'smart_atomizers' %}" class="btn btn-outline-secondary" role="button">Cancel</a>
-  </form>
+  <div class="row justify-content-md-center">
+    <div class="col col-lg-2">
+     
+    </div>
+	<div id="map" class="col-12 col-md-auto" style="width:600px;height:400px;"></div>
+    <div class="col col-lg-2">
+      
+    </div>
+</div>
+<form method="post" class="mb-4" novalidate>
+	{% csrf_token %}
+	{% include 'includes/form.html' %}
+	<button type="submit" class="btn btn-success">Save changes</button>
+	<a href="{% url 'smart_atomizers' %}" class="btn btn-outline-secondary" role="button">Cancel</a>
+</form>
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript">
+function myMap() {
+	var myCenter = new google.maps.LatLng({{smart_atomizer.latitude|safe}}, {{smart_atomizer.longitude|safe}});
+	var serial = "{{smart_atomizer.serial|safe}}";
+    var mapCanvas = document.getElementById("map");
+
+  	var mapOptions = {center: myCenter, zoom: 10};
+
+  	var map = new google.maps.Map(mapCanvas, mapOptions);
+
+  	var marker = new google.maps.Marker({
+  		position:myCenter,
+  		title: serial
+  	});
+  	marker.setMap(map);
+}
+</script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWbvx5QX5B97QWCFiqhnmHSJe6WDcAuTI&callback=myMap"
+  type="text/javascript"></script>
 {% endblock %}

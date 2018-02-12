@@ -22,7 +22,18 @@ def dashboard(request):
 		clientTotalVolume = {'name': client.name, 'volume': client.smart_atomizer_client_volume()}
 		clientsTotalVolume.append(clientTotalVolume)
 
-	return render(request, 'dashboard.html', {'clients': clientsTotalVolume})
+	activeDevice = {
+		'active': SmartAtomizer.objects.filter(activated=True).count(),
+		'inactive': SmartAtomizer.objects.filter(activated=False).count()
+	}
+
+	devices = SmartAtomizer.objects.all()
+	deviceLocations = []
+	for device in devices:
+		deviceLocation = {'serial': device.serial, 'lat': device.latitude, 'long': device.longitude}
+		deviceLocations.append(deviceLocation)
+
+	return render(request, 'dashboard.html', {'clients': clientsTotalVolume, 'activeDevice': activeDevice, 'deviceLocations': deviceLocations})
 
 @login_required
 def new_client(request):
