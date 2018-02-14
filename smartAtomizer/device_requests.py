@@ -8,6 +8,8 @@ from .models import *
 
 def test_volume_log(request, pk, volume):
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
+	smartAtomizer.volume = volume
+	smartAtomizer.save()
 	volumeLog = VolumeLog()
 	volumeLog.smart_atomizer = smartAtomizer
 	volumeLog.log_time = datetime.now()

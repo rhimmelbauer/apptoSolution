@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Alerts</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+</div>
+
+<div class="mb-4">
+  <h3>Low Volume</h3>
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Serial</th>
+        <th>Client</th>
+        <th>Zone</th>
+        <th>State</th>
+        <th>Timer Interval Hrs</th>
+        <th>Schedualed Interval Hrs</th>
+        <th>Atomizer Trigger Time</th>
+        <th>Volume %</th>
+        <th>Volume Alert %</th>
+		<th>Activated</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for alert in alerts %}
+        <tr>
+          <td>
+            <a href="{% url 'edit_smart_atomizer' alert.smart_atomizer.pk %}">{{ alert.smart_atomizer.serial }}</a>
+          </td>
+          <td>
+            <a>{{ alert.smart_atomizer.zone.client.name }}</a>
+          </td>
+          <td>
+            <a>{{ alert.smart_atomizer.zone }}</a>
+          </td>
+          <td>
+            {% if alert.smart_atomizer.state == True %}
+              On
+            {% else %}
+              Off
+            {% endif %}
+          </td>
+          <td>
+            {{ alert.smart_atomizer.timer_interval }}
+          </td>
+          <td>
+            {{ alert.smart_atomizer.scheduled_interval }}
+          </td>
+          <td>
+            {{ alert.smart_atomizer.atomizer_trigger_time }}s
+          </td>
+          <td>
+            {{ alert.smart_atomizer.volume }}
+          </td>
+          <td>
+            {{ alert.volume_warning }}
+          </td>
+          <td>
+            {{ alert.smart_atomizer.activated }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
+</div>
+
+
+
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("alerts_link").classList.add("active");
+  
+</script>
+{% endblock %}

@@ -310,7 +310,6 @@ class PendingActivationsListView(ListView):
 
 @method_decorator(login_required, name="dispatch")
 class SmartAtomizerAssignedZoneView(ListView):
-	print("Enterd class")
 	model = SmartAtomizer
 	context_object_name = 'smart_atomizers'
 	template_name = 'smart_atomizers_assigned_zone.html'
@@ -326,6 +325,26 @@ class SmartAtomizerAssignedZoneView(ListView):
 		self.client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
 		self.zone = get_object_or_404(Zone, pk=self.kwargs.get('zone_pk'))
 		queryset = SmartAtomizer.objects.filter(zone=self.zone)
+		return queryset
+
+@method_decorator(login_required, name="dispatch")
+class AlertsView(ListView):
+	model = Alert
+	context_object_name = 'alerts'
+	template_name = 'alerts.html'
+	paginate_by = 10
+
+
+	def get_context_data(self, **kwargs):
+		return super().get_context_data(**kwargs)
+
+	def get_queryset(self):
+		queryset = []
+		alerts = Alert.objects.all()
+		for alert in alerts:
+			if alert.smart_atomizer.volume < alert.volume_warning:
+				queryset.append(alert)
+
 		return queryset
 
 

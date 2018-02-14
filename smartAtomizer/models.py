@@ -93,8 +93,8 @@ class VolumeLog(models.Model):
 
 class SyncLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'sl_smart_atomizer', on_delete = models.CASCADE)
-	log_time = models.DateTimeField(auto_now_add = True
-)
+	log_time = models.DateTimeField(auto_now_add = True)
+	
 class AtomizerTriggerLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'atl_smart_atomizer', on_delete = models.CASCADE)
 	log_time = models.DateTimeField(auto_now_add = True)

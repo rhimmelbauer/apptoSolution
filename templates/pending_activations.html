@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Smart Atomizers</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'smart_atomizers' %}">Smart Atomizers</a></li>
         <li class="breadcrumb-item active">Pending Activations</li>
 {% endblock %}
 
@@ -16,11 +16,10 @@
 {% include 'includes/tableSmartAtomizer.html' %}
 
 {% endblock %}
-
 {% block scripts %}
-<script>
-  $( document ).ready(function() {
-    $("#navbarSmartAtomizers").addClass("active");
-});
+
+<script type="text/javascript">
+  document.getElementById("smart_atomizers_link").classList.add("active");
+  
 </script>
 {% endblock %}

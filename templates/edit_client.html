@@ -17,3 +17,11 @@
     <a href="{% url 'zones' client.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
   </form>
 {% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("clients_link").classList.add("active");
+  
+</script>
+{% endblock %}

@@ -17,3 +17,10 @@
     <a href="{% url 'smart_atomizers_assigned_zone' zone.client.pk zone.pk %}" class="btn btn-outline-secondary" role="button">Cancel</a>
   </form>
 {% endblock %}
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("clients_link").classList.add("active");
+  
+</script>
+{% endblock %}

@@ -50,9 +50,9 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
-  $( document ).ready(function() {
-    $("#navbarClients").addClass("active");
-});
+
+<script type="text/javascript">
+  document.getElementById("clients_link").classList.add("active");
+  
 </script>
 {% endblock %}

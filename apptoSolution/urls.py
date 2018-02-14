@@ -55,6 +55,9 @@ urlpatterns = [
     url(r'^edit_smart_atomizer/(?P<smart_atomizer_pk>\d+)/$', views.UpdateSmartAtomizerView.as_view(), name='edit_smart_atomizer'),
     url(r'^pending_activations', views.PendingActivationsListView.as_view(), name='pending_activations'),
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),
+
+    url(r'^alerts', views.AlertsView.as_view(), name='alerts'),
+
     url(r'^admin/', admin.site.urls),
 
     url(r'^test_volume_log/(?P<pk>\d+)/(?P<volume>\d+)/$', device_requests.test_volume_log, name='test_volume_log'),
