@@ -254,6 +254,18 @@ def remove_from_zone(request, smart_atomizer_pk):
 	smartAtomizer.save()
 	return redirect('smart_atomizers_assigned_zone', client_pk, zone_pk)
 
+def alerts(request):
+	queryset = []
+	alerts = Alert.objects.all()
+	for alert in alerts:
+		if alert.smart_atomizer.volume < alert.volume_warning:
+			queryset.append(alert)
+
+	syncLogs = SyncLog.objects.all()
+	volumeLogs = VolumeLog.objects.all()
+
+	return render(request, 'alerts.html', {'alerts': queryset, 'syncLogs': syncLogs, 'volumeLogs': volumeLogs})
+
 ############################## GCBVs ########################################
 
 ############################## ListViews ########################################

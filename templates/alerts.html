@@ -74,10 +74,19 @@
 </div>
 
 <div class="mb-4" style="background-color: black;">
-  <h3 style="color: white">System Log</h3>
-  <textarea rows="10" cols="70" style="background-color: black; color: green; resize: none;" disabled>
-  {% for alert in alerts %}
-    $ {{alert.smart_atomizer.zone.client.name}} {{ alert.smart_atomizer.zone }} {{ alert.smart_atomizer.volume }} {{ alert.volume_warning }}
+  <h3 style="color: white">Sync Log</h3>
+  <textarea rows="10" cols="70" style="background-color: black; color: white; resize: none;" disabled>
+  {% for syncLog in syncLogs %}
+    $ DEVICE_ID: {{syncLog.smart_atomizer.pk}}, note: {{ syncLog.comment }}, timestamp: {{ syncLog.log_time }}
+    {% endfor %}
+  </textarea> 
+</div>
+
+<div class="mb-4" style="background-color: black;">
+  <h3 style="color: white">Volume Log</h3>
+  <textarea rows="10" cols="70" style="background-color: black; color: white; resize: none;" disabled>
+  {% for volumeLog in volumeLogs %}
+    $ DEVICE_ID: {{volumeLog.smart_atomizer.pk}}, volume: {{ volumeLog.volume }}%, timestamp: {{ volumeLog.log_time }}
     {% endfor %}
   </textarea> 
 </div>

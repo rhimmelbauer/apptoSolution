@@ -56,7 +56,7 @@ urlpatterns = [
     url(r'^pending_activations', views.PendingActivationsListView.as_view(), name='pending_activations'),
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),
 
-    url(r'^alerts', views.AlertsView.as_view(), name='alerts'),
+    url(r'^alerts', views.alerts, name='alerts'),
 
     url(r'^admin/', admin.site.urls),
 
