@@ -7,6 +7,7 @@ from .forms import *
 from .models import *
 
 def test_volume_log(request, pk, volume):
+	print("logging volume")
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
 	smartAtomizer.volume = volume
 	smartAtomizer.save()
@@ -23,7 +24,14 @@ def test_activation(request, serial):
 		smartAtomizerDevice = SmartAtomizer.objects.filter(serial=serial)
 		print("Found Device")
 		smartAtomizerDB = SmartAtomizer.objects.get(serial=serial)
+
+
+		syncLog = SyncLog()
+		syncLog.smart_atomizer = smartAtomizerDB
+		syncLog.comment = "Device Synced Correctly"
+		syncLog.save();
 		data = serializers.serialize('json', [smartAtomizerDB,])
+
 		return HttpResponse(data, content_type="application/json")
 	except SmartAtomizer.DoesNotExist:
 		print("Entered Create Device")
@@ -33,6 +41,11 @@ def test_activation(request, serial):
 		alert = Alert()
 		alert.smart_atomizer = smartAtomizerDevice
 		alert.save()
+
+		syncLog = SyncLog()
+		syncLog.smart_atomizer = smartAtomizerDevice
+		syncLog.comment = "Enrolled new Device"
+		syncLog.save();
 		data = serializers.serialize('json', [smartAtomizerDevice,])
 		return HttpResponse(data, content_type="application/json")
 

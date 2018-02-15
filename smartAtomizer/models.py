@@ -57,10 +57,10 @@ class SmartAtomizer(models.Model):
 	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
 	serial = models.CharField(max_length = 150)
 	state = models.BooleanField(default = False)
-	timer_interval = models.CharField(max_length = 5, default = '0.5')
-	scheduled_interval = models.CharField(max_length = 200, default = '07:00,23:00')
+	timer_interval = models.CharField(max_length = 5, default = '0.04')
+	scheduled_interval = models.CharField(max_length = 200, default = '07:00,11:43,23:00')
 	atomizer_trigger_time = models.IntegerField(default = 1)
-	sync_interval = models.CharField(max_length = 5, default = '0.25')
+	sync_interval = models.CharField(max_length = 5, default = '0.04')
 	log_information = models.IntegerField(default = 255)
 	volume = models.IntegerField(default = 0)
 	activated = models.BooleanField(default = False)
@@ -93,8 +93,9 @@ class VolumeLog(models.Model):
 
 class SyncLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'sl_smart_atomizer', on_delete = models.CASCADE)
+	comment = models.CharField(max_length=100, default='')
 	log_time = models.DateTimeField(auto_now_add = True)
-	
+
 class AtomizerTriggerLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'atl_smart_atomizer', on_delete = models.CASCADE)
 	log_time = models.DateTimeField(auto_now_add = True)

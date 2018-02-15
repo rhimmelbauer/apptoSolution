@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-
+{% load static %}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -73,7 +73,14 @@
   {% include 'includes/pagination.html' %}
 </div>
 
-
+<div class="mb-4" style="background-color: black;">
+  <h3 style="color: white">System Log</h3>
+  <textarea rows="10" cols="70" style="background-color: black; color: green; resize: none;" disabled>
+  {% for alert in alerts %}
+    $ {{alert.smart_atomizer.zone.client.name}} {{ alert.smart_atomizer.zone }} {{ alert.smart_atomizer.volume }} {{ alert.volume_warning }}
+    {% endfor %}
+  </textarea> 
+</div>
 
 {% endblock %}
 
