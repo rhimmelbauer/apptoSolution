@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{design.name }} - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Designs</a></li>
+        <li class="breadcrumb-item active">{{ design.name }}</li>
+{% endblock %}
+
+{% block content %}
+      <div class="mb-4">
+        <a href="{% url 'assign_component' design.pk %}" class="btn btn-primary">Assign Components</a>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>MFG Name</th>
+            <th>MFG Part #</th>
+            <th>Designator</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for component in componentsInDesign %}
+            <tr>
+              <td>
+                {{ component.component.name }}
+              </td>
+              <td>
+                {{ component.component.mfg_name }}
+              </td>
+              <td>
+                {{ component.component.mfg_part_number }}
+              </td>
+              <td>
+                {{ component.component.designatior }}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  {% include 'includes/pagination.html' %}
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}
+

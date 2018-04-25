@@ -23,7 +23,7 @@
         <th>Client Name</th>
         <th>Description</th>
         <th># Smart Atomizers</th>
-        <th>Volume Level</th>
+        <th>Volume Level mL</th>
       </tr>
     </thead>
     <tbody>
@@ -39,7 +39,7 @@
             {{ zone.count_smart_atomizers }}
           </td>
           <td style="text-align: center;">
-            {{ zone.sum_zone_volume }}%
+            {{ zone.sum_zone_total_volume }}
           </td>
         </tr>
       {% endfor %}

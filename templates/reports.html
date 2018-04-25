@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item"><a href="{% url 'schedule' %}">Schedule</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'reports' %}">Reports</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+        
+</div>
+<div class="mb-4">
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Check Up</th>
+        <th>Check Up Complete</th>
+        <th>Completed at</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for report in reports %}
+        <tr>
+          <td>
+            <a>{{ report.checkup }}</a>
+          </td>
+          <td>
+            {{ report.visit_completed }}
+          </td>
+          <td>
+            {{ report.log_time }}
+          </td>
+          <td>
+            {{ report.notes }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("schedule_link").classList.add("active");
+  
+</script>
+{% endblock %}

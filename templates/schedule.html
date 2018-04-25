@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+        <li class="breadcrumb-item active"><a href="{% url 'schedule' %}">Schedule</a></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+        <a href="{% url 'representatives' %}" class="btn btn-primary">Representatives</a>
+        <a href="{% url 'new_checkup' %}" class="btn btn-primary">New Check Up</a>
+        <a href="{% url 'reports' %}" class="btn btn-primary">Reports</a>
+</div>
+<div class="mb-4">
+  <h1>Next Check Ups</h1>
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Representative</th>
+        <th>Client</th>
+        <th>Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for checkup in checkups %}
+        <tr href="{% url 'schedule' %}">
+          <td>
+            <a>{{ checkup.representative }}</a>
+          </td>
+          <td>
+            {{ checkup.client }}
+          </td>
+          <td>
+            {{ checkup.day }}
+          </td>
+          <td>
+            {{ checkup.start_time }}
+          </td>
+          <td>
+            {{ checkup.end_time }}
+          </td>
+          <td>
+            {{ checkup.notes }}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
+</div>
+<div class="mb-4">
+  <h1>CALENDAR</h1>
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("schedule_link").classList.add("active");
+  
+</script>
+{% endblock %}

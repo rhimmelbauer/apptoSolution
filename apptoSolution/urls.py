@@ -57,6 +57,14 @@ urlpatterns = [
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),
 
     url(r'^alerts', views.alerts, name='alerts'),
+    #url(r'^checkup', views.checkup, name='checkup'),
+
+    url(r'^schedule', views.schedule, name='schedule'),
+    url(r'^representatives', views.RepresentativesListView.as_view(), name='representatives'),
+    url(r'^new_representative', views.new_representative, name='new_representative'),
+    url(r'^new_checkup', views.new_checkup, name='new_checkup'),
+    url(r'^reports', views.ReportsListView.as_view(), name='reports'),
+    url(r'^report_checkup', views.report_checkup, name='report_checkup'),
 
     url(r'^admin/', admin.site.urls),
 

@@ -65,6 +65,36 @@ class NewClientForm(forms.ModelForm):
 		          'address',
 		          'description']
 
+class NewRepresentativeForm(forms.ModelForm):
+	first_name = forms.CharField(
+				widget = forms.TextInput(
+					attrs={'placeholder': 'First Name eg: Daniel'}
+				),
+				max_length=50,
+				help_text='Max length is 50 characters'
+			)
+	last_name = forms.CharField(
+				widget = forms.TextInput(
+					attrs={'placeholder': 'Last Name eg: Perez Gonazales'}
+				),
+				max_length=100,
+				help_text='Max length is 100 characters'
+			)
+
+	class Meta:
+		model = Representative
+		fields = ['first_name',
+		          'last_name']
+
+class NewReportCheckUpForm(forms.ModelForm):
+	
+
+	class Meta:
+		model = Report
+		fields = ['checkup',
+		          'visit_completed',
+		          'notes']
+
 class NewSmartAtomizerForm(forms.ModelForm):
 	serial = forms.CharField(
 				widget = forms.TextInput(
@@ -78,12 +108,35 @@ class NewSmartAtomizerForm(forms.ModelForm):
 		model = SmartAtomizer
 		fields = ['serial',
 				  'state',
-				  'timer_interval',
-				  'scheduled_interval',
-				  'atomizer_trigger_time',
+				  'scheduled_start',
+				  'scheduled_finish',
+				  'atomizer_power',
 				  'sync_interval',
 				  'volume',
 				  'activated']
+
+class NewCheckUpForm(forms.ModelForm):
+	day = forms.DateField(
+				widget = forms.DateInput(
+					attrs={'class': 'datetime-input'}
+					),
+					help_text='YYYY-MM-DD'
+				)
+	start_time = forms.TimeField(
+					widget = forms.TimeInput(),
+					help_text='HH:MM:SS eg: 14:30:00')
+	end_time = forms.TimeField(
+					widget = forms.TimeInput(),
+					help_text='HH:MM:SS eg: 15:30:00')
+
+	class Meta:
+		model = CheckUp
+		fields = ['client',
+				  'representative',
+				  'day',
+				  'start_time',
+				  'end_time',
+				  'notes']
 
 
 class ControlClientForm(forms.ModelForm):
@@ -91,22 +144,20 @@ class ControlClientForm(forms.ModelForm):
 	class Meta:
 		model = SmartAtomizer
 		fields = ['state',
-				  'timer_interval',
-				  'scheduled_interval',
-				  'atomizer_trigger_time',
-				  'sync_interval',
-				  'log_information']
+				  'scheduled_start',
+				  'scheduled_finish',
+				  'atomizer_power',
+				  'sync_interval']
 
 class ControlZoneForm(forms.ModelForm):
 
 	class Meta:
 		model = SmartAtomizer
 		fields = ['state',
-				  'timer_interval',
-				  'scheduled_interval',
-				  'atomizer_trigger_time',
-				  'sync_interval',
-				  'log_information']
+				  'scheduled_start',
+				  'scheduled_finish',
+				  'atomizer_power',
+				  'sync_interval']
 
 
 class EditAlertsForm(forms.ModelForm):

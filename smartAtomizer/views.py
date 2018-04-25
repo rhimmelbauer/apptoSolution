@@ -18,7 +18,7 @@ def dashboard(request):
 	clients = Client.objects.all()
 	clientsTotalVolume = []
 	for client in clients:
-		clientTotalVolume = {'name': client.name, 'volume': client.smart_atomizer_client_volume()}
+		clientTotalVolume = {'name': client.name, 'volume': client.smart_atomizer_client_total_volume()}
 		clientsTotalVolume.append(clientTotalVolume)
 
 	activeDevice = {
@@ -47,6 +47,44 @@ def new_client(request):
 	return render(request, 'new_client.html', {'form': form})
 
 @login_required
+def new_representative(request):
+	if request.method == 'POST':
+		form = NewRepresentativeForm(request.POST)
+		if form.is_valid():
+			newRep = form.save(commit=False)
+			newRep.save()
+			return redirect('representatives')
+	else:
+		form = NewRepresentativeForm()
+	return render(request, 'new_representative.html', {'form': form})
+
+@login_required
+def new_checkup(request):
+	if request.method == 'POST':
+		form = NewCheckUpForm(request.POST)
+		print(form)
+		if form.is_valid():
+			newRep = form.save(commit=False)
+			newRep.save()
+			return redirect('schedule')
+	else:
+		form = NewCheckUpForm()
+	return render(request, 'new_checkup.html', {'form': form})
+
+@login_required
+def report_checkup(request):
+	if request.method == 'POST':
+		form = NewReportCheckUpForm(request.POST)
+		print(form)
+		if form.is_valid():
+			newRep = form.save(commit=False)
+			newRep.save()
+			return redirect('schedule')
+	else:
+		form = NewReportCheckUpForm()
+	return render(request, 'report_checkup.html', {'form': form})
+
+@login_required
 def new_zone(request, client_pk):
 	client = get_object_or_404(Client, pk=client_pk)
 	if request.method == 'POST':
@@ -64,6 +102,12 @@ def new_zone(request, client_pk):
 @login_required
 def smart_atomizers(request):
 	return render(request, 'smart_atomizers.html')
+
+@login_required
+def schedule(request):
+	today = datetime.now().date()
+	checkups = CheckUp.objects.filter(day__gte=today).order_by('day', 'start_time','client')
+	return render(request, 'schedule.html',{'checkups': checkups})
 
 @login_required
 def new_smart_atomizer(request):
@@ -93,11 +137,10 @@ def control_client(request, client_pk):
 				zoneSmartAtomizers = SmartAtomizer.objects.filter(zone=zone)
 				for smartAtomizer in zoneSmartAtomizers:
 					smartAtomizer.state = smartAtomizerSettings.state
-					smartAtomizer.timer_interval = smartAtomizerSettings.timer_interval
-					smartAtomizer.scheduled_interval = smartAtomizerSettings.scheduled_interval
-					smartAtomizer.atomizer_trigger_time = smartAtomizerSettings.atomizer_trigger_time
+					smartAtomizer.scheduled_start = smartAtomizerSettings.scheduled_start
+					smartAtomizer.scheduled_finish = smartAtomizerSettings.scheduled_finish
+					smartAtomizer.atomizer_power = smartAtomizerSettings.atomizer_power
 					smartAtomizer.sync_interval = smartAtomizerSettings.sync_interval
-					smartAtomizer.log_information = smartAtomizerSettings.log_information
 					smartAtomizer.save()
 			return redirect('zones', client.pk)
 	else:
@@ -170,11 +213,10 @@ def control_zone(request, client_pk, zone_pk):
 			zoneSmartAtomizers = SmartAtomizer.objects.filter(zone=zone)
 			for smartAtomizer in zoneSmartAtomizers:
 				smartAtomizer.state = smartAtomizerSettings.state
-				smartAtomizer.timer_interval = smartAtomizerSettings.timer_interval
-				smartAtomizer.scheduled_interval = smartAtomizerSettings.scheduled_interval
-				smartAtomizer.atomizer_trigger_time = smartAtomizerSettings.atomizer_trigger_time
+				smartAtomizer.scheduled_start = smartAtomizerSettings.scheduled_start
+				smartAtomizer.scheduled_interval = smartAtomizerSettings.scheduled_finish
+				smartAtomizer.atomizer_power = smartAtomizerSettings.atomizer_power
 				smartAtomizer.sync_interval = smartAtomizerSettings.sync_interval
-				smartAtomizer.log_information = smartAtomizerSettings.log_information
 				smartAtomizer.save()
 			return redirect('smart_atomizers_assigned_zone', client.pk, zone.pk)
 	else:
@@ -359,6 +401,19 @@ class AlertsView(ListView):
 
 		return queryset
 
+@method_decorator(login_required, name="dispatch")
+class RepresentativesListView(ListView):
+	model = Representative
+	context_object_name = 'reps'
+	template_name = 'representatives.html'
+	paginate_by = 10
+
+@method_decorator(login_required, name="dispatch")
+class ReportsListView(ListView):
+	model = Report
+	context_object_name = 'reports'
+	template_name = 'reports.html'
+	paginate_by = 10
 
 ############################## UpdateViews ########################################
 
