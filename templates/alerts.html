@@ -21,11 +21,11 @@
         <th>Client</th>
         <th>Zone</th>
         <th>State</th>
-        <th>Timer Interval Hrs</th>
-        <th>Schedualed Interval Hrs</th>
-        <th>Atomizer Trigger Time</th>
-        <th>Volume %</th>
-        <th>Volume Alert %</th>
+        <th>Scheduled Start</th>
+        <th>Scheduled Finish</th>
+        <th>Atomizer Power</th>
+        <th>Volume mL</th>
+        <th>Volume Alert mL</th>
 		<th>Activated</th>
       </tr>
     </thead>
@@ -49,13 +49,13 @@
             {% endif %}
           </td>
           <td>
-            {{ alert.smart_atomizer.timer_interval }}
+            {{ alert.smart_atomizer.scheduled_start }}
           </td>
           <td>
-            {{ alert.smart_atomizer.scheduled_interval }}
+            {{ alert.smart_atomizer.scheduled_finish }}
           </td>
           <td>
-            {{ alert.smart_atomizer.atomizer_trigger_time }}s
+            {{ alert.smart_atomizer.atomizer_power }}
           </td>
           <td>
             {{ alert.smart_atomizer.volume }}
