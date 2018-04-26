@@ -7,7 +7,13 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-reboot.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/sidemenu.css' %}">
-    <link href="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+  <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+  <script src="{% static 'js/popper.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'js/sb-admin-2.js' %}"></script>
     {% block stylesheet %}{% endblock %}
   </head>
   <body>
@@ -48,12 +54,5 @@
     </div>
   </div>
   {% endblock body %}
-  <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
-  <script src="{% static 'js/popper.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.min.js' %}"></script>
-  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-  <script src="{% static 'js/sb-admin-2.js' %}"></script>
-  <script src="//cdn.bootcss.com/moment.js/2.17.1/moment.min.js"></script>
-  <script src="//cdn.bootcss.com/bootstrap-datetimepicker/4.17.44/js/bootstrap-datetimepicker.min.js"></script>
   </body>
 </html>

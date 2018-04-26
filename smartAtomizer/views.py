@@ -469,3 +469,6 @@ class UpdateZoneView(UpdateView):
 		zone = form.save(commit=False)
 		zone.save()
 		return redirect('smart_atomizers_assigned_zone', client_pk=zone.client.pk, zone_pk=zone.pk)
+
+
+########################## CALENDAR ########################################

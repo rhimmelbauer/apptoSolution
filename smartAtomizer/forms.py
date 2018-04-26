@@ -118,7 +118,7 @@ class NewSmartAtomizerForm(forms.ModelForm):
 class NewCheckUpForm(forms.ModelForm):
 	day = forms.DateField(
 				widget = forms.DateInput(
-					attrs={'class': 'datetime-input'}
+					attrs={'id': 'datepicker'}
 					),
 					help_text='YYYY-MM-DD'
 				)

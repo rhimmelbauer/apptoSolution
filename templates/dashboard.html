@@ -15,7 +15,7 @@ google.charts.load("current", {packages:['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 function drawChart() {
   var clientsTemp = []
-  clientsTemp.push(["Client", "Volume %"])
+  clientsTemp.push(["Client", "Volume mL"])
   {% for client in clients %}
   	var row = []
   	row.push({{client|safe}}['name'])
