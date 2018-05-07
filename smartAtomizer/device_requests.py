@@ -13,12 +13,15 @@ def test_volume_log(request, pk, volume):
 	smartAtomizer.volume = volume
 	print(smartAtomizer.volume)
 	smartAtomizer.save()
+	print(smartAtomizer)
 	volumeLog = VolumeLog()
 	volumeLog.smart_atomizer = smartAtomizer
 	volumeLog.log_time = datetime.now()
 	volumeLog.volume = volume
 	volumeLog.save()
+	print(volumeLog)
 	response = JsonResponse({'smart_atomizer': 'testing callback'})
+	print(response)
 	return response
 
 def test_activation(request, serial):

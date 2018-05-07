@@ -75,6 +75,19 @@ class Zone(models.Model):
 			return volume
 
 class SmartAtomizer(models.Model):
+	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
+	serial = models.CharField(max_length = 150)
+	state = models.BooleanField(default = False)
+	sync_interval = models.CharField(max_length = 5, default = '0.04')
+	volume = models.IntegerField(default = 0)
+	activated = models.BooleanField(default = False)
+	latitude = models.DecimalField(default=37.397987, max_digits=10, decimal_places=6, blank=True, null=True)
+	longitude = models.DecimalField(default=-121.983552, max_digits=10, decimal_places=6, blank=True, null=True)
+
+	def __str__(self):
+		return self.serial	
+
+class SmartAtomizerSchedule(models.Model):
 	VERY_LOW = 'Muy Bajo'
 	LOW = 'Bajo'
 	MEDIUM = 'Medio'
@@ -88,20 +101,10 @@ class SmartAtomizer(models.Model):
 		(VERY_HIGH, VERY_HIGH)
 	)
 
-	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
-	serial = models.CharField(max_length = 150)
-	state = models.BooleanField(default = False)
-	scheduled_start = models.TimeField(blank=True, null=True)
-	scheduled_finish = models.TimeField(blank=True, null=True)
-	sync_interval = models.CharField(max_length = 5, default = '0.04')
+	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name='sa_schedule', on_delete = models.CASCADE)
+	scheduled_start = models.TimeField()
+	scheduled_finish = models.TimeField()
 	atomizer_power = models.CharField(max_length=10,choices=ATOMIZER_POWER, default=LOW)
-	volume = models.IntegerField(default = 0)
-	activated = models.BooleanField(default = False)
-	latitude = models.DecimalField(default=37.397987, max_digits=10, decimal_places=6, blank=True, null=True)
-	longitude = models.DecimalField(default=-121.983552, max_digits=10, decimal_places=6, blank=True, null=True)
-
-	def __str__(self):
-		return self.serial	
 
 class Alert(models.Model):
 	smart_atomizer = models.OneToOneField(SmartAtomizer, on_delete = models.CASCADE, primary_key=True)

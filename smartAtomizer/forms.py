@@ -108,12 +108,18 @@ class NewSmartAtomizerForm(forms.ModelForm):
 		model = SmartAtomizer
 		fields = ['serial',
 				  'state',
-				  'scheduled_start',
-				  'scheduled_finish',
-				  'atomizer_power',
 				  'sync_interval',
 				  'volume',
 				  'activated']
+
+class NewSmartAtomizerScheduleForm(forms.ModelForm):	
+
+	class Meta:
+		model = SmartAtomizerSchedule
+		fields = ['smart_atomizer',
+				  'scheduled_start',
+				  'scheduled_finish',
+				  'atomizer_power',]
 
 class NewCheckUpForm(forms.ModelForm):
 	day = forms.DateField(
@@ -144,9 +150,6 @@ class ControlClientForm(forms.ModelForm):
 	class Meta:
 		model = SmartAtomizer
 		fields = ['state',
-				  'scheduled_start',
-				  'scheduled_finish',
-				  'atomizer_power',
 				  'sync_interval']
 
 class ControlZoneForm(forms.ModelForm):
@@ -154,9 +157,6 @@ class ControlZoneForm(forms.ModelForm):
 	class Meta:
 		model = SmartAtomizer
 		fields = ['state',
-				  'scheduled_start',
-				  'scheduled_finish',
-				  'atomizer_power',
 				  'sync_interval']
 
 

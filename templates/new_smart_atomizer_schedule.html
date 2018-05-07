@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Certify New Smart Atomizer{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers' %}">Smart Atomizers</a></li>
+  <li class="breadcrumb-item active">New Smart Atomizer</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include 'includes/form.html' %}
+    <button type="submit" class="btn btn-success">Save</button>
+  </form>
+{% endblock %}
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("smart_atomizers_link").classList.add("active");
+  
+</script>
+{% endblock %}
