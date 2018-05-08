@@ -164,14 +164,12 @@ class NewSmartAtomizerForm(forms.ModelForm):
 
 class NewSmartAtomizerScheduleForm(forms.ModelForm):	
 
-	scheduled_start = forms.TimeField(
-				widget=forms.TimeInput(),
+	scheduled_start = forms.CharField(
 				label='Hora de Comienzo',
 				help_text="Ejemplo 07:00"
 				)
 
-	scheduled_finish = forms.TimeField(
-				widget=forms.TimeInput(),
+	scheduled_finish = forms.CharField(
 				label='Hora de Fin',
 				help_text='Ejemplo 13:00'
 				)
