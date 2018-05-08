@@ -5,6 +5,8 @@ from django.core import serializers
 from datetime import datetime
 from .forms import *
 from .models import *
+from django.forms.models import model_to_dict
+
 
 def test_volume_log(request, pk, volume):
 	print("logging volume")
@@ -35,6 +37,7 @@ def test_activation(request, serial):
 		syncLog.smart_atomizer = smartAtomizerDB
 		syncLog.comment = "Device Synced Correctly"
 		syncLog.save();
+
 		data = serializers.serialize('json', [smartAtomizerDB,])
 
 		return HttpResponse(data, content_type="application/json")
@@ -51,7 +54,22 @@ def test_activation(request, serial):
 		syncLog.smart_atomizer = smartAtomizerDevice
 		syncLog.comment = "Enrolled new Device"
 		syncLog.save();
+
+		smartAtomizerSchedule = SmartAtomizerSchedule()
+		smartAtomizerSchedule.smart_atomizer = smartAtomizerDevice
+		smartAtomizerSchedule.save()
+
 		data = serializers.serialize('json', [smartAtomizerDevice,])
 		return HttpResponse(data, content_type="application/json")
+
+def get_schedule(request, pk):
+	print("Getting Schedule")
+	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
+	sa_schedule = SmartAtomizerSchedule.objects.filter(smart_atomizer=smartAtomizer).first()
+
+
+	data = serializers.serialize('json', [sa_schedule,])
+
+	return HttpResponse(data, content_type="application/json")
 
 
