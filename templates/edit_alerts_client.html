@@ -5,16 +5,16 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
-  <li class="breadcrumb-item active"><a>Configure Clients Smart Atomizers Alerts</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Empresas</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zonas</a></li>
+  <li class="breadcrumb-item active"><a>Configurar Alertas para la EmpresaConfigure Clients Smart Atomizers Alerts</a></li>
 {% endblock %}
 
 {% block content %}
   <form method="post" novalidate>
     {% csrf_token %}
     {% include 'includes/form.html' %}
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
   </form>
 {% endblock %}
 {% block scripts %}

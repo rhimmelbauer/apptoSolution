@@ -5,31 +5,28 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Empresas</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zonas</a></li>
   <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a></li>
 {% endblock %}
 
 {% block content %}
 <div class="mb-4">
-    <a href="{% url 'edit_zone' client.pk zone.pk %}" class="btn btn-primary">Edit Zone</a>
-    <a href="{% url 'edit_alerts_zone' client.pk zone.pk%}" class="btn btn-primary">Edit Alerts</a>
-    <a href="{% url 'control_zone' client.pk zone.pk %}" class="btn btn-primary">Control Zone</a>
-    <a href="{% url 'add_smart_atomizer_zone' client.pk zone.pk  %}" class="btn btn-primary">Add Smart Atomizer</a>
+    <a href="{% url 'edit_zone' client.pk zone.pk %}" class="btn btn-primary">Editar Zona</a>
+    <a href="{% url 'edit_alerts_zone' client.pk zone.pk%}" class="btn btn-primary">Editar Alertas</a>
+    <a href="{% url 'control_zone' client.pk zone.pk %}" class="btn btn-primary">Controlar Zona</a>
+    <a href="{% url 'add_smart_atomizer_zone' client.pk zone.pk  %}" class="btn btn-primary">Añadir Atomizador</a>
 </div>
 <div class="mb-4">
   <table class="table table-striped">
     <thead class="thead">
       <tr>
         <th>Serial</th>
-        <th>Client</th>
-        <th>Zone</th>
-        <th>State</th>
-        <th>Scheduled Start</th>
-        <th>Scheduled Finish</th>
-        <th>Atomizer Power</th>
-        <th>Volume mL</th>
-        <th>Activated</th>
+        <th>Cliente</th>
+        <th>Zona</th>
+        <th>Estado</th>
+        <th>Volumen mL</th>
+        <th>Activado</th>
       </tr>
     </thead>
     <tbody>

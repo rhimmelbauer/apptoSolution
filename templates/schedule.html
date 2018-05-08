@@ -6,26 +6,26 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item active"><a href="{% url 'schedule' %}">Schedule</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'schedule' %}">Horario</a></li>
 {% endblock %}
 
 {% block content %}
 <div class="mb-4">
-        <a href="{% url 'representatives' %}" class="btn btn-primary">Representatives</a>
-        <a href="{% url 'new_checkup' %}" class="btn btn-primary">New Check Up</a>
-        <a href="{% url 'reports' %}" class="btn btn-primary">Reports</a>
+        <a href="{% url 'representatives' %}" class="btn btn-primary">Representatne</a>
+        <a href="{% url 'new_checkup' %}" class="btn btn-primary">Nueva Visita</a>
+        <a href="{% url 'reports' %}" class="btn btn-primary">Reportes de Visitas</a>
 </div>
 <div class="mb-4">
-  <h1>Next Check Ups</h1>
+  <h1>Siguientes Visitas</h1>
   <table class="table table-striped">
     <thead class="thead">
       <tr>
-        <th>Representative</th>
-        <th>Client</th>
-        <th>Date</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Notes</th>
+        <th>Representante</th>
+        <th>Cliente</th>
+        <th>Fecha</th>
+        <th>Desde</th>
+        <th>Hasta</th>
+        <th>Notas</th>
       </tr>
     </thead>
     <tbody>
@@ -56,7 +56,6 @@
   {% include 'includes/pagination.html' %}
 </div>
 <div class="mb-4">
-  <h1></h1>
 </div>
 {% endblock %}
 

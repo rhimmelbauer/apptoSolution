@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Empresas</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zonas</a></li>
   <li class="breadcrumb-item"><a href="{% url 'smart_atomizers_assigned_zone' client.pk zone.pk %}">{{ zone.name }}</a></li>
-        <li class="breadcrumb-item active"><a>Assign Smart Atomizer</a></li>
+        <li class="breadcrumb-item active"><a>Asignar Atomizador</a></li>
 {% endblock %}
 
 {% block content %}
@@ -43,11 +43,11 @@
     <ul class="pagination">
       {% if smart_atomizers.has_previous %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ smart_atomizers.previous_page_number }}">Previous</a>
+          <a class="page-link" href="?page={{ smart_atomizers.previous_page_number }}">Atras</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Previous</span>
+          <span class="page-link">Siguiente</span>
         </li>
       {% endif %}
 
@@ -68,17 +68,17 @@
 
       {% if smart_atomizers.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ smart_atomizers.next_page_number }}">Next</a>
+          <a class="page-link" href="?page={{ smart_atomizers.next_page_number }}">Siguiente</a>
         </li>
       {% else %}
         <li class="page-item disabled">
-          <span class="page-link">Next</span>
+          <span class="page-link">Siguiente</span>
         </li>
       {% endif %}
     </ul>
   </nav>
 {% endif %}
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
   </form>
 
 

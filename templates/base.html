@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>{% block title %}APTTO Smart Atomizer{% endblock %}</title>
+    <title>{% block title %}Atomizadores Aptto{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-grid.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap-reboot.min.css' %}">
@@ -24,21 +24,21 @@
             <h3>APTTO</h3>
         </div>
         <ul class="list-unstyled components">
-            <p>Management Site</p>
+            <p>Portal de Gestión</p>
             <li id="dashboard_link">
                 <a href="{% url 'dashboard' %}">Dashboard</a>
             </li>
             <li id="alerts_link">
-                <a href="{% url 'alerts' %}">Alerts</a>
+                <a href="{% url 'alerts' %}">Alertas</a>
             </li>
             <li id="clients_link">
-                <a href="{% url 'clients' %}">Clients</a>
+                <a href="{% url 'clients' %}">Empresas</a>
             </li>
             <li id="smart_atomizers_link">
-                <a href="{% url 'smart_atomizers' %}">Smart Atomizers</a>
+                <a href="{% url 'smart_atomizers' %}">Atomizadores</a>
             </li>
             <li id="schedule_link">
-                <a href="{% url 'schedule' %}">Schedule</a>
+                <a href="{% url 'schedule' %}">Horarios</a>
             </li>
         </ul>
     </nav>

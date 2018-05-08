@@ -5,13 +5,13 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Smart Atomizers</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Atomizadores</a></li>
 {% endblock %}
 
 {% block content %}
 <div class="mb-4">
-        <a href="{% url 'new_smart_atomizer' %}" class="btn btn-primary">New Smart Atomizer</a>
-        <a href="{% url 'pending_activations' %}" class="btn btn-primary">Pending Activations</a>
+        <a href="{% url 'new_smart_atomizer' %}" class="btn btn-primary">Nuevo Atomizador</a>
+        <a href="{% url 'pending_activations' %}" class="btn btn-primary">Activaciones Pendientes</a>
 </div>
 
 {% include 'includes/tableSmartAtomizer.html' %}

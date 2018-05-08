@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Alerts</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Alertas</a></li>
 {% endblock %}
 
 {% block content %}
@@ -18,12 +18,12 @@
           <ul class="object-tools">
             <li>
                 <a href={{ previous_month }}>
-                    Previous month
+                    Mes Pasado
                 </a>
             </li>
             <li>
                 <a href={{ next_month }}>
-                    Next month
+                    Siguiente Mes
                 </a>
             </li>
         </ul>
@@ -35,7 +35,7 @@
   <h3 style="color: white">Sync Log</h3>
   <textarea rows="10" cols="70" style="background-color: black; color: white; resize: none;" disabled>
   {% for syncLog in syncLogs %}
-    $ DEVICE_ID: {{syncLog.smart_atomizer.pk}}, note: {{ syncLog.comment }}, timestamp: {{ syncLog.log_time }}
+    $ ATOMIZADOR_ID: {{syncLog.smart_atomizer.pk}}, NOTA: {{ syncLog.comment }}, timestamp: {{ syncLog.log_time }}
     {% endfor %}
   </textarea> 
 </div>
@@ -44,7 +44,7 @@
   <h3 style="color: white">Volume Log</h3>
   <textarea rows="10" cols="70" style="background-color: black; color: white; resize: none;" disabled>
   {% for volumeLog in volumeLogs %}
-    $ DEVICE_ID: {{volumeLog.smart_atomizer.pk}}, volume: {{ volumeLog.volume }}%, timestamp: {{ volumeLog.log_time }}
+    $ ATOMIZADOR_ID: {{volumeLog.smart_atomizer.pk}}, VOLUMEN: {{ volumeLog.volume }}%, timestamp: {{ volumeLog.log_time }}
     {% endfor %}
   </textarea> 
 </div>

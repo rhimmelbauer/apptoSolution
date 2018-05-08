@@ -9,17 +9,17 @@
 {% block body %}
   <div class="container">
     <h1 class="text-center logo my-4">
-      <a class="text-white" href="{% url 'dashboard' %}">Appto</a>
+      <a class="text-white" href="{% url 'dashboard' %}">Aptto</a>
     </h1>
     <div class="row justify-content-center">
       <div class="col-lg-4 col-md-6 col-sm-8">
         <div class="card">
           <div class="card-body">
-            <h3 class="card-title">Log in</h3>
+            <h3 class="card-title">Inicio de Sessión</h3>
             <form method="post" novalidate>
               {% csrf_token %}
               {% include 'includes/form.html' %}
-              <button type="submit" class="btn btn-primary btn-block">Log in</button>
+              <button type="submit" class="btn btn-primary btn-block">Iniciar Sessión</button>
             </form>
           </div>
         </div>

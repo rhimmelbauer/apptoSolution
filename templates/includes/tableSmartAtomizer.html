@@ -3,14 +3,11 @@
     <thead class="thead">
       <tr>
         <th>Serial</th>
-        <th>Client</th>
-        <th>Zone</th>
-        <th>State</th>
-        <th>Scheduled Start</th>
-        <th>Scheduled Finish</th>
-        <th>Atomizer Power</th>
-        <th>Volume mL</th>
-	     <th>Activated</th>
+        <th>Empresa</th>
+        <th>Zona</th>
+        <th>Estado</th>
+        <th>Volumen mL</th>
+	     <th>Activado</th>
       </tr>
     </thead>
     <tbody>
@@ -31,15 +28,6 @@
             {% else %}
               Off
             {% endif %}
-          </td>
-          <td>
-            {{ smart_atomizer.scheduled_start }}
-          </td>
-          <td>
-            {{ smart_atomizer.scheduled_finish }}
-          </td>
-          <td>
-            {{ smart_atomizer.atomizer_power }}
           </td>
           <td>
             {{ smart_atomizer.volume }}

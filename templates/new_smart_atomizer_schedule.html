@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Nuevo Atomizador{% endblock %}
+{% block title %}Certify New Smart Atomizer{% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers' %}">Atomizadores</a></li>
-  <li class="breadcrumb-item active">Nuevo Atomizador</li>
+  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers'%}">Atomizadores</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'edit_smart_atomizer' smart_atomizer.pk%}">Editar Atomizador {{smart_atomizer.serial}}</a></li>
+  <li class="breadcrumb-item active">Agregar Horario</li>
 {% endblock %}
 
 {% block content %}

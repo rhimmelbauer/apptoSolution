@@ -4,17 +4,19 @@ from .models import *
 class NewZoneForm(forms.ModelForm):
 	name = forms.CharField(
 				widget = forms.TextInput(
-					attrs={'placeholder': 'Write a name for the zone. Eg: Main Hall'}
+					attrs={'placeholder': 'Escriba un nombre representativo de la zona. Ejemplo: Lobby'}
 				),
+				label='Nombre de la Zona',
 				max_length=50,
-				help_text='Max length is 50 characters'
+				help_text='Máximo 50 carácteres.'
 			)
 	description = forms.CharField(
 				widget = forms.Textarea(
-					attrs={'rows': 5, 'placeholder': 'Additinal Notes, eg: Atomizer placed left corner.'}
+					attrs={'rows': 5, 'placeholder': 'Agregue una descriptción, Ejemplo: El atomizador fue instalado al final del pasillo.'}
 				),
+				label='Descripción',
 				max_length=200,
-				help_text='Max length is 200 characters'
+				help_text='Máximo 2000 carácteres.'
 			)
 	class Meta:
 		model = Zone
@@ -23,38 +25,43 @@ class NewZoneForm(forms.ModelForm):
 class NewClientForm(forms.ModelForm):
 	name = forms.CharField(
 				widget = forms.TextInput(
-					attrs={'placeholder': 'Clients Name eg: Appto'}
+					attrs={'placeholder': 'Ejemplo: Camino Real Santa Fe'}
 				),
+				label='Nombre de la Empresa',
 				max_length=50,
-				help_text='Max length is 50 characters'
+				help_text='Máximo 50 carácteres.'
 			)
 	contact_name = forms.CharField(
 				widget = forms.TextInput(
-					attrs={'placeholder': 'Contacts full name eg: Pedro Paramo'}
+					attrs={'placeholder': 'Ejemplo: Pedro Paramo'}
 				),
+				label='Nombre del Contacto',
 				max_length=100,
-				help_text='Max length is 100 characters'
+				help_text='Máximo 100 carácteres.'
 			)
 	contact_phone = forms.CharField(
 				widget = forms.TextInput(
-					attrs={'placeholder': 'Contacts phone number eg: +52 55 1234 5678'}
+					attrs={'placeholder': 'Ejemplo: +52 55 1234 5678'}
 				),
+				label='Télefono del Contacto',
 				max_length=50,
-				help_text='Max length is 50 characters'
+				help_text='Máximo 50 carácteres.'
 			)
 	address = forms.CharField(
 				widget = forms.Textarea(
-					attrs={'rows': 5, 'placeholder': 'Clients Address. eg: Alcanfores 23, San Jose de los Cedros, Cuajimalpa, CDMX'}
+					attrs={'rows': 5, 'placeholder': 'Ejemplo: Alcanfores 23, San Jose de los Cedros, Cuajimalpa, CDMX'}
 				),
+				label='Dirección',
 				max_length=150,
-				help_text='Max length is 150 characters'
+				help_text='Máximo 150 carácteres.'
 			)
 	description = forms.CharField(
 				widget = forms.Textarea(
-					attrs={'rows': 5, 'placeholder': 'Additinal Notes, eg: starting with 5 smart atomizers in the main hall'}
+					attrs={'rows': 5, 'placeholder': 'Ejemplo: El cliente cuenta con 5 atomizadores'}
 				),
+				label='Descripción',
 				max_length=200,
-				help_text='Max length is 200 characters'
+				help_text='Máximo 200 carácteres.'
 			)	
 
 	class Meta:
@@ -68,17 +75,19 @@ class NewClientForm(forms.ModelForm):
 class NewRepresentativeForm(forms.ModelForm):
 	first_name = forms.CharField(
 				widget = forms.TextInput(
-					attrs={'placeholder': 'First Name eg: Daniel'}
+					attrs={'placeholder': 'Ejemplo: Daniel'}
 				),
+				label='Nombre',
 				max_length=50,
-				help_text='Max length is 50 characters'
+				help_text='Máximo 50 carácteres.'
 			)
 	last_name = forms.CharField(
 				widget = forms.TextInput(
-					attrs={'placeholder': 'Last Name eg: Perez Gonazales'}
+					attrs={'placeholder': 'Ejemplo: Perez Gonazales'}
 				),
+				label='Apellidos',
 				max_length=100,
-				help_text='Max length is 100 characters'
+				help_text='Máximo 100 carácteres.'
 			)
 
 	class Meta:
@@ -87,6 +96,19 @@ class NewRepresentativeForm(forms.ModelForm):
 		          'last_name']
 
 class NewReportCheckUpForm(forms.ModelForm):
+
+	visit_completed = forms.CharField(
+				widget = forms.BooleanField(),
+				label='Visita Completada',
+			)
+	notes = forms.CharField(
+				widget = forms.TextInput(
+					attrs={'placeholder': 'Ejemplo: Se cambio el líquido.'}
+				),
+				label='Notas de la Visita',
+				max_length=100,
+				help_text='Máximo 250 carácteres.'
+			)
 	
 
 	class Meta:
@@ -101,19 +123,66 @@ class NewSmartAtomizerForm(forms.ModelForm):
 					attrs={'placeholder': 'PixieBoard Serial'}
 				),
 				max_length=50,
-				help_text='Max length is 50 characters'
+				help_text='Máximo 50 carácteres.'
 			)	
 
+	state = forms.BooleanField(
+				required=False,
+				label='Estado',
+				help_text='Encendido/Apagado'
+
+			)
+
+	sync_interval = forms.CharField(
+				widget = forms.TextInput(
+					attrs={ 'placeholder': '0.04'}
+				),
+				label='Interval de Sincronización',
+				max_length=5,
+				help_text="Rango aceptado 0.04 a 1. Ejemplo: 0.10"
+			)
+
+	volume = forms.IntegerField(
+				label='Volumen del Líquido Restante mL',
+				help_text='Ingresar el Volumen del aromatizador'
+			)
+
+	activated = forms.BooleanField(
+				required=False,
+				label='Ativado',
+				help_text='Activado/Desactivado'
+			)
+
 	class Meta:
+		print('inside form')
 		model = SmartAtomizer
 		fields = ['serial',
 				  'state',
-				  'scheduled_start',
-				  'scheduled_finish',
-				  'atomizer_power',
 				  'sync_interval',
 				  'volume',
 				  'activated']
+
+class NewSmartAtomizerScheduleForm(forms.ModelForm):	
+
+	scheduled_start = forms.TimeField(
+				widget=forms.TimeInput(),
+				label='Hora de Comienzo',
+				help_text="Ejemplo 07:00"
+				)
+
+	scheduled_finish = forms.TimeField(
+				widget=forms.TimeInput(),
+				label='Hora de Fin',
+				help_text='Ejemplo 13:00'
+				)
+
+	
+
+	class Meta:
+		model = SmartAtomizerSchedule
+		fields = ['scheduled_start',
+				  'scheduled_finish',
+				  'atomizer_power',]
 
 class NewCheckUpForm(forms.ModelForm):
 	day = forms.DateField(
@@ -144,9 +213,6 @@ class ControlClientForm(forms.ModelForm):
 	class Meta:
 		model = SmartAtomizer
 		fields = ['state',
-				  'scheduled_start',
-				  'scheduled_finish',
-				  'atomizer_power',
 				  'sync_interval']
 
 class ControlZoneForm(forms.ModelForm):
@@ -154,9 +220,6 @@ class ControlZoneForm(forms.ModelForm):
 	class Meta:
 		model = SmartAtomizer
 		fields = ['state',
-				  'scheduled_start',
-				  'scheduled_finish',
-				  'atomizer_power',
 				  'sync_interval']
 
 
