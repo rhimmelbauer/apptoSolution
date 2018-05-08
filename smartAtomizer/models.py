@@ -102,8 +102,8 @@ class SmartAtomizerSchedule(models.Model):
 	)
 
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name='sa_schedule', on_delete = models.CASCADE)
-	scheduled_start = models.TimeField()
-	scheduled_finish = models.TimeField()
+	scheduled_start = models.TimeField(default='07:00')
+	scheduled_finish = models.TimeField(default='12:00')
 	atomizer_power = models.CharField(max_length=10,choices=ATOMIZER_POWER, default=LOW)
 
 class Alert(models.Model):

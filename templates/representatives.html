@@ -5,20 +5,20 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item"><a href="{% url 'schedule' %}">Schedule</a></li>
-        <li class="breadcrumb-item active"><a href="{% url 'representatives' %}">Representatives</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'schedule' %}">Horario</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'representatives' %}">Representatnes</a></li>
 {% endblock %}
 
 {% block content %}
 <div class="mb-4">
-        <a href="{% url 'new_representative' %}" class="btn btn-primary">New Representative</a>
+        <a href="{% url 'new_representative' %}" class="btn btn-primary">Nuevo Representante</a>
 </div>
 <div class="mb-4">
   <table class="table table-striped">
     <thead class="thead">
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Nombre</th>
+        <th>Apellidos</th>
       </tr>
     </thead>
     <tbody>

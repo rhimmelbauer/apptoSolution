@@ -48,11 +48,16 @@ urlpatterns = [
     url(r'^delete_client/(?P<client_pk>\d+)/$', views.delete_client, name='delete_client'),
     url(r'^delete_zone/(?P<zone_pk>\d+)/$', views.delete_zone, name='delete_zone'),
     url(r'^delete_smart_atomizer/(?P<smart_atomizer_pk>\d+)/$', views.delete_smart_atomizer, name='delete_smart_atomizer'),
+    url(r'^delete_smart_atomizer_schedule/(?P<smart_atomizer_pk>\d+)/(?P<smart_atomizer_schedule_pk>\d+)/$', views.delete_smart_atomizer_schedule, name='delete_smart_atomizer_schedule'),
     url(r'^remove_from_zone/(?P<smart_atomizer_pk>\d+)/$', views.remove_from_zone, name='remove_from_zone'),
 
     url(r'^smart_atomizers', views.SmartAtomizersListView.as_view(), name='smart_atomizers'),
     url(r'^new_smart_atomizer', views.new_smart_atomizer, name='new_smart_atomizer'),
+
     url(r'^edit_smart_atomizer/(?P<smart_atomizer_pk>\d+)/$', views.UpdateSmartAtomizerView.as_view(), name='edit_smart_atomizer'),
+    url(r'^edit_smart_atomizer/(?P<smart_atomizer_pk>\d+)/smart_atomizer_schedule/$', views.SmartAtomizerScheduleListView.as_view(), name='smart_atomizer_schedule'),
+    url(r'^edit_smart_atomizer/(?P<smart_atomizer_pk>\d+)/smart_atomizer_schedule/(?P<smart_atomizer_schedule_pk>\d+)/edit_smart_atomizer_schedule/$', views.UpdateSmartAtomizerScheduleView.as_view(), name='edit_smart_atomizer_schedule'),
+    url(r'^edit_smart_atomizer/(?P<smart_atomizer_pk>\d+)/new_smart_atomizer_schedule/$', views.new_smart_atomizer_schedule, name='new_smart_atomizer_schedule'),
     url(r'^pending_activations', views.PendingActivationsListView.as_view(), name='pending_activations'),
     url(r'^assign_smart_atomizer', views.assign_smart_atomizer, name='assign_smart_atomizer'),
 

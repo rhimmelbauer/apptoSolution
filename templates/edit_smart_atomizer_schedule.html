@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Horario del Atomizador{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item">Editar Horario del Atomizador</li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'delete_smart_atomizer_schedule' smart_atomizer_schedule.smart_atomizer.pk smart_atomizer_schedule.pk %}" class="btn btn-danger" style="color: white;">Borrar</a>
+
+<form method="post" class="mb-4" novalidate>
+	{% csrf_token %}
+	{% include 'includes/form.html' %}
+	<button type="submit" class="btn btn-success">Guardar Cambios</button>
+	<a href="{% url 'smart_atomizer_schedule' smart_atomizer_schedule.smart_atomizer.pk %}" class="btn btn-outline-secondary" role="button">Cancelar</a>
+</form>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

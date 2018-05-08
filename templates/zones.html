@@ -5,25 +5,25 @@
 {% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
-  <li class="breadcrumb-item active"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zones</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Empresas</a></li>
+  <li class="breadcrumb-item active"><a href="{% url 'zones' client.pk %}">{{ client.name }} Zonas</a></li>
 {% endblock %}
 
 {% block content %}
 <div class="mb-4">
-    <a href="{% url 'edit_client' client.pk %}" class="btn btn-primary">Edit Client</a>
-    <a href="{% url 'edit_alerts_client' client.pk %}" class="btn btn-primary">Edit Alerts</a>
-    <a href="{% url 'control_client' client.pk %}" class="btn btn-primary">Control Client</a>
-    <a href="{% url 'new_zone' client.pk %}" class="btn btn-primary">New Zone</a>
+    <a href="{% url 'edit_client' client.pk %}" class="btn btn-primary">Editar Empresa</a>
+    <a href="{% url 'edit_alerts_client' client.pk %}" class="btn btn-primary">Editar Alertas</a>
+    <a href="{% url 'control_client' client.pk %}" class="btn btn-primary">Configurar Empresa</a>
+    <a href="{% url 'new_zone' client.pk %}" class="btn btn-primary">Nueva Zona</a>
 </div>
 <div class="mb-4">
   <table class="table table-striped">
     <thead class="thead">
       <tr>
-        <th>Client Name</th>
-        <th>Description</th>
-        <th># Smart Atomizers</th>
-        <th>Volume Level mL</th>
+        <th>Empresa</th>
+        <th>Descripción</th>
+        <th># Atomizador</th>
+        <th>Volumen mL</th>
       </tr>
     </thead>
     <tbody>

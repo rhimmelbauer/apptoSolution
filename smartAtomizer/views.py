@@ -90,7 +90,6 @@ def new_zone(request, client_pk):
 	if request.method == 'POST':
 		form = NewZoneForm(request.POST)
 		if form.is_valid():
-			print("form is valid")
 			newZone = form.save(commit=False)
 			newZone.client = client
 			newZone.save()
@@ -114,12 +113,25 @@ def new_smart_atomizer(request):
 	if request.method == 'POST':
 		form = NewSmartAtomizerForm(request.POST)
 		if form.is_valid():
-			newClient = form.save(commit=False)
-			newClient.save()
+			new_smart_atomizer = form.save(commit=False)
+			new_smart_atomizer.save()
 			return redirect('smart_atomizers')
 	else:
 		form = NewSmartAtomizerForm()
-	return render(request, 'new_smart_atomizer.html', {'form': form})
+	return render(request, 'new_smart_atomizer_schedule.html', {'form': form})
+
+def new_smart_atomizer_schedule(request, smart_atomizer_pk):
+	smart_atomizer = get_object_or_404(SmartAtomizer, pk=smart_atomizer_pk)
+	if request.method == 'POST':
+		form = NewSmartAtomizerScheduleForm(request.POST)
+		if form.is_valid():
+			smart_atomizer_schedule = form.save(commit=False)
+			smart_atomizer_schedule.smart_atomizer = smart_atomizer
+			smart_atomizer_schedule.save()
+			return redirect('smart_atomizer_schedule', smart_atomizer.pk)
+	else:
+		form = NewSmartAtomizerScheduleForm()
+	return render(request, 'new_smart_atomizer_schedule.html', {'form': form, 'smart_atomizer': smart_atomizer})
 
 @login_required
 def assign_smart_atomizer(request):
@@ -288,6 +300,12 @@ def delete_smart_atomizer(request, smart_atomizer_pk):
 	zone.delete()
 	return redirect('smart_atomizers')
 
+def delete_smart_atomizer_schedule(request, smart_atomizer_pk, smart_atomizer_schedule_pk):
+	smart_atomizer = get_object_or_404(SmartAtomizer, pk=smart_atomizer_pk)
+	smart_atomizer_schedule = get_object_or_404(SmartAtomizerSchedule, pk=smart_atomizer_schedule_pk)
+	smart_atomizer_schedule.delete()
+	return redirect('smart_atomizer_schedule', smart_atomizer.pk)
+
 def remove_from_zone(request, smart_atomizer_pk):
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=smart_atomizer_pk)
 	client_pk = smartAtomizer.zone.client.pk
@@ -332,6 +350,22 @@ class ZonesListView(ListView):
 	def get_queryset(self):
 		self.client = get_object_or_404(Client, pk=self.kwargs.get('client_pk'))
 		queryset = Zone.objects.filter(client = self.client)
+		return queryset
+
+@method_decorator(login_required, name="dispatch")
+class SmartAtomizerScheduleListView(ListView):
+	model = SmartAtomizerSchedule
+	context_object_name = 'schedules'
+	template_name = 'smart_atomizer_schedule.html'
+	paginate_by = 10
+
+	def get_context_data(self, **kwargs):
+		kwargs['smart_atomizer'] = self.smart_atomizer
+		return super().get_context_data(**kwargs)
+
+	def get_queryset(self):
+		self.smart_atomizer = get_object_or_404(SmartAtomizer, pk=self.kwargs.get('smart_atomizer_pk'))
+		queryset = SmartAtomizerSchedule.objects.filter(smart_atomizer = self.smart_atomizer)
 		return queryset
 
 @method_decorator(login_required, name="dispatch")
@@ -439,6 +473,7 @@ class UpdateSmartAtomizerView(UpdateView):
 	context_object_name = 'smart_atomizer'
 
 	def form_valid(self, form):
+		print('inside val')
 		smartAtomizer = form.save(commit=False)
 		smartAtomizer.save()
 		return redirect('smart_atomizers')
@@ -455,6 +490,20 @@ class UpdateSmartAtomizerZoneView(UpdateView):
 		smartAtomizer = form.save(commit=False)
 		smartAtomizer.save()
 		return redirect('smart_atomizers_assigned_zone', client_pk=smartAtomizer.zone.client.pk, zone_pk=smartAtomizer.zone.pk)
+
+
+@method_decorator(login_required, name="dispatch")
+class UpdateSmartAtomizerScheduleView(UpdateView):
+	model = SmartAtomizerSchedule
+	form_class = NewSmartAtomizerScheduleForm
+	template_name = 'edit_smart_atomizer_schedule.html'
+	pk_url_kwarg = 'smart_atomizer_schedule_pk'
+	context_object_name = 'smart_atomizer_schedule'
+
+	def form_valid(self, form):
+		smartAtomizer = form.save(commit=False)
+		smartAtomizer.save()
+		return redirect('smart_atomizer_schedule', smart_atomizer_pk=smartAtomizer.smart_atomizer.pk)
 
 @method_decorator(login_required, name="dispatch")
 class UpdateZoneView(UpdateView):

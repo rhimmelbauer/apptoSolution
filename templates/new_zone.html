@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Create New Zone{% endblock %}
+{% block title %}Crear Nueva Zona{% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Clients</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'clients' %}">Empresas</a></li>
   <li class="breadcrumb-item"><a href="{% url 'zones' client.pk %}">{{ client.name }}</a></li>
-  <li class="breadcrumb-item active">New Zone</li>
+  <li class="breadcrumb-item active">Nueva Zona</li>
 {% endblock %}
 
 {% block content %}
   <form method="post" novalidate>
     {% csrf_token %}
     {% include 'includes/form.html' %}
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
   </form>
 {% endblock %}
 {% block scripts %}

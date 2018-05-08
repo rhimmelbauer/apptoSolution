@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'smart_atomizers' %}">Atomizadores</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'edit_smart_atomizer' smart_atomizer.pk %}">Editar Atomizador {{ smart_atomizer.serial }}</a></li>
+  <li class="breadcrumb-item active">Horarios</li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'new_smart_atomizer_schedule' smart_atomizer.pk %}" class="btn btn-primary" style="color: white;">Agregar Horario</a>
+</div>
+<div class="mb-4">
+  <table class="table table-striped">
+    <thead class="thead">
+      <tr>
+        <th>Comienzo</th>
+        <th>Fin</th>
+        <th>Potencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for schedule in schedules %}
+        <tr>
+          <td>
+            <a href="{% url 'edit_smart_atomizer_schedule' smart_atomizer.pk schedule.pk %}">{{ schedule.scheduled_start }}</a>
+          </td>
+          <td>
+            <a href="{% url 'edit_smart_atomizer_schedule' smart_atomizer.pk schedule.pk %}">{{ schedule.scheduled_finish }}</a>
+          </td>
+          <td style="text-align: center;">
+            <a href="{% url 'edit_smart_atomizer_schedule' smart_atomizer.pk schedule.pk %}">{{ schedule.atomizer_power }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% include 'includes/pagination.html' %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<script type="text/javascript">
+  document.getElementById("clients_link").classList.add("active");
+  
+</script>
+{% endblock %}

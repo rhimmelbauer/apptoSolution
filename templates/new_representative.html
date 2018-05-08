@@ -3,15 +3,15 @@
 {% block title %}Create New Client{% endblock %}
 
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="{% url 'schedule' %}">Schedule</a></li>
-  <li class="breadcrumb-item"><a href="{% url 'representatives' %}">Representatives</a></li>
-  <li class="breadcrumb-item active">New Representative</li>
+  <li class="breadcrumb-item"><a href="{% url 'schedule' %}">Horario</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'representatives' %}">Representantes</a></li>
+  <li class="breadcrumb-item active">Nuevo Representante</li>
 {% endblock %}
 
 {% block content %}
   <form method="post" novalidate>
     {% csrf_token %}
     {% include 'includes/form.html' %}
-    <button type="submit" class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Guardar</button>
   </form>
 {% endblock %}

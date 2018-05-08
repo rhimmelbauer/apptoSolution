@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block breadcrumb %}
-        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Alerts</a></li>
+        <li class="breadcrumb-item active"><a href="{% url 'smart_atomizers' %}">Alertas</a></li>
 {% endblock %}
 
 {% block content %}
@@ -13,19 +13,16 @@
 </div>
 
 <div class="mb-4">
-  <h3>Low Volume</h3>
+  <h3>Volumen Bajo</h3>
   <table class="table table-striped">
     <thead class="thead">
       <tr>
         <th>Serial</th>
-        <th>Client</th>
-        <th>Zone</th>
-        <th>State</th>
-        <th>Scheduled Start</th>
-        <th>Scheduled Finish</th>
-        <th>Atomizer Power</th>
-        <th>Volume mL</th>
-        <th>Volume Alert mL</th>
+        <th>Empresa</th>
+        <th>Zona</th>
+        <th>Estado</th>
+        <th>Volumen mL</th>
+        <th>Alerta mL</th>
 		<th>Activated</th>
       </tr>
     </thead>
@@ -49,15 +46,6 @@
             {% endif %}
           </td>
           <td>
-            {{ alert.smart_atomizer.scheduled_start }}
-          </td>
-          <td>
-            {{ alert.smart_atomizer.scheduled_finish }}
-          </td>
-          <td>
-            {{ alert.smart_atomizer.atomizer_power }}
-          </td>
-          <td>
             {{ alert.smart_atomizer.volume }}
           </td>
           <td>
@@ -77,7 +65,7 @@
   <h3 style="color: white">Sync Log</h3>
   <textarea rows="10" cols="70" style="background-color: black; color: white; resize: none;" disabled>
   {% for syncLog in syncLogs %}
-    $ DEVICE_ID: {{syncLog.smart_atomizer.pk}}, note: {{ syncLog.comment }}, timestamp: {{ syncLog.log_time }}
+    $ ATOMIZADOR_ID: {{syncLog.smart_atomizer.pk}}, notas: {{ syncLog.comment }}, timestamp: {{ syncLog.log_time }}
     {% endfor %}
   </textarea> 
 </div>
@@ -86,7 +74,7 @@
   <h3 style="color: white">Volume Log</h3>
   <textarea rows="10" cols="70" style="background-color: black; color: white; resize: none;" disabled>
   {% for volumeLog in volumeLogs %}
-    $ DEVICE_ID: {{volumeLog.smart_atomizer.pk}}, volume: {{ volumeLog.volume }}%, timestamp: {{ volumeLog.log_time }}
+    $ ATOMIZADOR_ID: {{volumeLog.smart_atomizer.pk}}, volumeN: {{ volumeLog.volume }}%, timestamp: {{ volumeLog.log_time }}
     {% endfor %}
   </textarea> 
 </div>
