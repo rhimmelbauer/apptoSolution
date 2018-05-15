@@ -79,10 +79,11 @@ class SmartAtomizer(models.Model):
 	serial = models.CharField(max_length = 150)
 	state = models.BooleanField(default = False)
 	sync_interval = models.CharField(max_length = 5, default = '0.04')
-	volume = models.IntegerField(default = 0)
+	volume = models.DecimalField(default = 0, max_digits=4, decimal_places=2)
 	activated = models.BooleanField(default = False)
 	latitude = models.DecimalField(default=37.397987, max_digits=10, decimal_places=6, blank=True, null=True)
 	longitude = models.DecimalField(default=-121.983552, max_digits=10, decimal_places=6, blank=True, null=True)
+	version = models.CharField(max_length=8, default='00.00.00')
 
 	def __str__(self):
 		return self.serial	
@@ -104,7 +105,7 @@ class SmartAtomizerSchedule(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name='sa_schedule', on_delete = models.CASCADE)
 	scheduled_start = models.CharField(default='07:00', max_length=5)
 	scheduled_finish = models.CharField(default='12:00', max_length=5)
-	atomizer_power = models.CharField(max_length=10,choices=ATOMIZER_POWER, default=LOW)
+	atomizer_power = models.CharField(max_length=10, choices=ATOMIZER_POWER, default=LOW)
 
 	def __str__(self):
 		return '%d' % self.pk
@@ -128,7 +129,7 @@ class MovementLog(models.Model):
 class VolumeLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'vl_smart_atomizer', on_delete = models.CASCADE)
 	log_time = models.DateTimeField(auto_now_add = True)
-	volume = models.IntegerField()
+	volume = models.DecimalField(default = 0, max_digits=4, decimal_places=2)
 
 class SyncLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'sl_smart_atomizer', on_delete = models.CASCADE)
