@@ -6,24 +6,24 @@ from datetime import datetime
 from .forms import *
 from .models import *
 from django.forms.models import model_to_dict
+import re
 
+ENROLLED_NEW_DEVICE = "Enrolled new Device"
+DEVICE_SYNC_OK = "Device Synced Correctly"
 
 def test_volume_log(request, pk, volume):
 	print("logging volume")
-	print(volume)
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
 	smartAtomizer.volume = volume
-	print(smartAtomizer.volume)
 	smartAtomizer.save()
-	print(smartAtomizer)
+
 	volumeLog = VolumeLog()
 	volumeLog.smart_atomizer = smartAtomizer
 	volumeLog.log_time = datetime.now()
 	volumeLog.volume = volume
 	volumeLog.save()
-	print(volumeLog)
-	response = JsonResponse({'smart_atomizer': 'testing callback'})
-	print(response)
+
+	response = JsonResponse({'smart_atomizer': 'OK'})
 	return response
 
 def test_activation(request, serial):
@@ -32,11 +32,7 @@ def test_activation(request, serial):
 		print("Found Device")
 		smartAtomizerDB = SmartAtomizer.objects.get(serial=serial)
 
-
-		syncLog = SyncLog()
-		syncLog.smart_atomizer = smartAtomizerDB
-		syncLog.comment = "Device Synced Correctly"
-		syncLog.save();
+		log_sync(smartAtomizerDB, DEVICE_SYNC_OK)
 
 		data = serializers.serialize('json', [smartAtomizerDB,])
 
@@ -46,30 +42,53 @@ def test_activation(request, serial):
 		smartAtomizerDevice = SmartAtomizer()
 		smartAtomizerDevice.serial = serial
 		smartAtomizerDevice.save()
-		alert = Alert()
-		alert.smart_atomizer = smartAtomizerDevice
-		alert.save()
+		
+		init_alerts(smartAtomizerDevice)
 
-		syncLog = SyncLog()
-		syncLog.smart_atomizer = smartAtomizerDevice
-		syncLog.comment = "Enrolled new Device"
-		syncLog.save();
+		log_sync(smartAtomizerDevice, ENROLLED_NEW_DEVICE)
 
-		smartAtomizerSchedule = SmartAtomizerSchedule()
-		smartAtomizerSchedule.smart_atomizer = smartAtomizerDevice
-		smartAtomizerSchedule.save()
+		init_schedule(smartAtomizerDevice)
 
 		data = serializers.serialize('json', [smartAtomizerDevice,])
 		return HttpResponse(data, content_type="application/json")
 
+def init_alerts(smartAtomizer):
+	alert = Alert()
+	alert.smart_atomizer = smartAtomizer
+	alert.save()
+
+def init_schedule(smartAtomizer):
+	smartAtomizerSchedule = SmartAtomizerSchedule()
+	smartAtomizerSchedule.smart_atomizer = smartAtomizer
+	smartAtomizerSchedule.save()
+
+def log_sync(smartAtomizer, msg):
+	syncLog = SyncLog()
+	syncLog.smart_atomizer = smartAtomizer
+	syncLog.comment = msg
+	syncLog.save();
+
 def get_schedule(request, pk):
-	print("Getting Schedule")
+	print("Getting Schedule Count")
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
-	sa_schedule = SmartAtomizerSchedule.objects.filter(smart_atomizer=smartAtomizer).first()
-
-
-	data = serializers.serialize('json', [sa_schedule,])
-
+	scheduleIDs = SmartAtomizerSchedule.objects.filter(smart_atomizer=smartAtomizer)
+	
+	data = serialize_querySet(scheduleIDs)
+	
 	return HttpResponse(data, content_type="application/json")
+
+def serialize_querySet(querySet):
+	data = "["
+	for item in querySet:
+		temp = serializers.serialize('json', [item,])
+		temp = temp.replace("[", "")
+		temp = temp.replace("]","")
+		data += temp
+		data += ","
+
+	data = data[:-1]
+	data += "]"
+	return data
+
 
 
