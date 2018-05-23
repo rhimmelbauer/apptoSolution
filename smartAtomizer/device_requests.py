@@ -3,10 +3,12 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core import serializers
 from datetime import datetime
+from pytz import timezone
 from .forms import *
 from .models import *
 from django.forms.models import model_to_dict
 import re
+
 
 ENROLLED_NEW_DEVICE = "Enrolled new Device"
 DEVICE_SYNC_OK = "Device Synced Correctly"
@@ -19,12 +21,23 @@ def test_volume_log(request, pk, volume):
 
 	volumeLog = VolumeLog()
 	volumeLog.smart_atomizer = smartAtomizer
-	volumeLog.log_time = datetime.now()
+	volumeLog.log_time = datetime.now().astimezone(timezone('America/Mexico_City'))
 	volumeLog.volume = volume
 	volumeLog.save()
 
 	response = JsonResponse({'smart_atomizer': 'OK'})
 	return response
+
+def set_location(request, pk, lat, lng):
+	print("Setting Location")
+	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
+	smartAtomizer.latitude = lat
+	smartAtomizer.longitude = lng
+	smartAtomizer.save()
+
+	response = JsonResponse({'smart_atomizer': 'OK'})
+	return response
+	
 
 def test_activation(request, serial):
 	try:
@@ -66,6 +79,7 @@ def log_sync(smartAtomizer, msg):
 	syncLog = SyncLog()
 	syncLog.smart_atomizer = smartAtomizer
 	syncLog.comment = msg
+	syncLog.log_time = datetime.now().astimezone(timezone('America/Mexico_City'))
 	syncLog.save();
 
 def get_schedule(request, pk):

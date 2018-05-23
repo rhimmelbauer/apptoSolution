@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse, JsonResponse
 from datetime import datetime
+from pytz import timezone
 from .forms import *
 from .models import *
 
@@ -321,10 +322,21 @@ def alerts(request):
 		if alert.smart_atomizer.volume < alert.volume_warning:
 			queryset.append(alert)
 
-	syncLogs = SyncLog.objects.all()
-	volumeLogs = VolumeLog.objects.all()
+	syncLogs = SyncLog.objects.all().order_by('-log_time')[:15]
+	volumeLogs = VolumeLog.objects.all().order_by('-log_time')[:5]
+	timeParsedSyncLog = []
+	timeParsedVolumeLog = []
 
-	return render(request, 'alerts.html', {'alerts': queryset, 'syncLogs': syncLogs, 'volumeLogs': volumeLogs})
+	for vLog in volumeLogs:
+		vLog.log_time = vLog.log_time.astimezone(timezone('America/Mexico_City')).strftime("%Y-%m-%d %H:%M:%S")
+		timeParsedVolumeLog.append(vLog)
+
+	for syncLog in syncLogs:
+		syncLog.log_time = syncLog.log_time.astimezone(timezone('America/Mexico_City')).strftime("%Y-%m-%d %H:%M:%S")
+		timeParsedSyncLog.append(syncLog)
+
+
+	return render(request, 'alerts.html', {'alerts': queryset, 'syncLogs': timeParsedSyncLog, 'volumeLogs': timeParsedVolumeLog})
 
 ############################## GCBVs ########################################
 
