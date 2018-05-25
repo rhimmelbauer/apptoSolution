@@ -7,7 +7,7 @@ from pytz import timezone
 from .forms import *
 from .models import *
 from django.forms.models import model_to_dict
-import re
+import requests, json
 
 
 ENROLLED_NEW_DEVICE = "Enrolled new Device"
@@ -38,6 +38,23 @@ def set_location(request, pk, lat, lng):
 	response = JsonResponse({'smart_atomizer': 'OK'})
 	return response
 	
+def get_location(request, pk, cid, lac, mcc, mnc):
+	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
+	payload = {'considerIp':'false','cellTowers':[{'cellId': cellId,'locationAreaCode': locationAreaCode,'mobileCountryCode': mobileCountryCode,'mobileNetworkCode':mobileNetworkCode}]}
+	jsonPayload = json.dumps(payload)
+	headers = {'content-type': 'application/json'}
+	privateKey = "AIzaSyC_p5U3kzT2N1N2UCHu80h54eXLJqa34Mg"
+	url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + privateKey
+	r = requests.post(url,data=jsonPayload,headers = headers)
+	response = json.loads(r.text)
+	lat = response['location']['lat']
+	lng = response['location']['lng']
+	smartAtomizer.latitude = lat
+	smartAtomizer.longitude = lng
+	smartAtomizer.save()
+
+	response = JsonResponse({'smart_atomizer': 'OK'})
+	return response
 
 def test_activation(request, serial):
 	try:
