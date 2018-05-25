@@ -40,7 +40,7 @@ def set_location(request, pk, lat, lng):
 	
 def get_location(request, pk, cid, lac, mcc, mnc):
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
-	payload = {'considerIp':'false','cellTowers':[{'cellId': cellId,'locationAreaCode': locationAreaCode,'mobileCountryCode': mobileCountryCode,'mobileNetworkCode':mobileNetworkCode}]}
+	payload = {'considerIp':'false','cellTowers':[{'cellId': cid,'locationAreaCode': lac,'mobileCountryCode': mcc,'mobileNetworkCode':mnc}]}
 	jsonPayload = json.dumps(payload)
 	headers = {'content-type': 'application/json'}
 	privateKey = "AIzaSyC_p5U3kzT2N1N2UCHu80h54eXLJqa34Mg"
