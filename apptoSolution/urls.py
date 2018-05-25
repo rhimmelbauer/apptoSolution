@@ -74,7 +74,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     url(r'^test_volume_log/(?P<pk>\d+)/(?P<volume>\d+\.\d{2})/$', device_requests.test_volume_log, name='test_volume_log'),
-    url(r'^set_location/(?P<pk>\d+)/(?P<lat>\d+\.\d{6})//(?P<lng>\d+\.\d{6})/$', device_requests.set_location, name='set_location'),
+    url(r'^set_location/(?P<pk>\d+)/(?P<lat>-?\d+\.\d+)/(?P<lng>-?\d+\.\d+)/$', device_requests.set_location, name='set_location'),
     url(r'^test_activation/(?P<serial>\w+)/$', device_requests.test_activation, name='test_activation'),
     url(r'^get_schedule/(?P<pk>\w+)/$', device_requests.get_schedule, name='get_schedule'),
 ]
