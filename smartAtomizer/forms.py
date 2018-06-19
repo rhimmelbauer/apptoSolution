@@ -142,7 +142,7 @@ class NewSmartAtomizerForm(forms.ModelForm):
 				help_text="Rango aceptado 0.04 a 1. Ejemplo: 0.10"
 			)
 
-	volume = forms.IntegerField(
+	volume = forms.DecimalField(
 				label='Volumen del Líquido Restante mL',
 				help_text='Ingresar el Volumen del aromatizador'
 			)

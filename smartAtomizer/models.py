@@ -79,7 +79,7 @@ class SmartAtomizer(models.Model):
 	serial = models.CharField(max_length = 150)
 	state = models.BooleanField(default = False)
 	sync_interval = models.CharField(max_length = 5, default = '0.04')
-	volume = models.DecimalField(default = 0, max_digits=4, decimal_places=2)
+	volume = models.DecimalField(default = 0, max_digits=6, decimal_places=2)
 	activated = models.BooleanField(default = False)
 	latitude = models.DecimalField(default=37.397987, max_digits=10, decimal_places=6, blank=True, null=True)
 	longitude = models.DecimalField(default=-121.983552, max_digits=10, decimal_places=6, blank=True, null=True)
