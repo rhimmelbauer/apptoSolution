@@ -129,7 +129,7 @@ class MovementLog(models.Model):
 class VolumeLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'vl_smart_atomizer', on_delete = models.CASCADE)
 	log_time = models.DateTimeField(auto_now_add = True)
-	volume = models.DecimalField(default = 0, max_digits=4, decimal_places=2)
+	volume = models.DecimalField(default = 0, max_digits=6, decimal_places=2)
 
 class SyncLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'sl_smart_atomizer', on_delete = models.CASCADE)
