@@ -78,8 +78,8 @@ class SmartAtomizer(models.Model):
 	zone = models.ForeignKey(Zone, related_name = 'sa_zone', on_delete = models.SET_NULL, blank = True, null = True)
 	serial = models.CharField(max_length = 150)
 	state = models.BooleanField(default = False)
-	sync_interval = models.CharField(max_length = 5, default = '0.04')
-	volume = models.DecimalField(default = 0, max_digits=6, decimal_places=2)
+	sync_interval = models.CharField(max_length = 5, default = '7')
+	volume = models.DecimalField(default = 0, max_digits=8, decimal_places=4)
 	activated = models.BooleanField(default = False)
 	latitude = models.DecimalField(default=37.397987, max_digits=10, decimal_places=6, blank=True, null=True)
 	longitude = models.DecimalField(default=-121.983552, max_digits=10, decimal_places=6, blank=True, null=True)
@@ -89,23 +89,31 @@ class SmartAtomizer(models.Model):
 		return self.serial	
 
 class SmartAtomizerSchedule(models.Model):
-	VERY_LOW = 'Muy Bajo'
-	LOW = 'Bajo'
-	MEDIUM = 'Medio'
-	HIGH = 'Alto'
-	VERY_HIGH = 'Muy Alto'
+	NIVEL_1 = 'N1: 120s, 90s'
+	NIVEL_2 = 'N2: 120s, 120s'
+	NIVEL_3 = 'N3: 90s, 120s'
+	NIVEL_4 = 'N4: 60s, 120s'
+	NIVEL_5 = 'N5: 90s, 210s'
+	NIVEL_6 = 'N6: 100s, 300s'
+	NIVEL_7 = 'N7: 60s, 300s'
+	NIVEL_8 = 'N8: 30s, 300s'
+	NIVEL_9 = 'N9: 10s, 300s'
 	ATOMIZER_POWER = (
-		(VERY_LOW, VERY_LOW),
-		(LOW, LOW),
-		(MEDIUM, MEDIUM),
-		(HIGH, HIGH),
-		(VERY_HIGH, VERY_HIGH)
+		(NIVEL_1, NIVEL_1),
+		(NIVEL_2, NIVEL_2),
+		(NIVEL_3, NIVEL_3),
+		(NIVEL_4, NIVEL_4),
+		(NIVEL_5, NIVEL_5),
+		(NIVEL_6, NIVEL_6),
+		(NIVEL_7, NIVEL_7),
+		(NIVEL_8, NIVEL_8),
+		(NIVEL_9, NIVEL_9),
 	)
 
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name='sa_schedule', on_delete = models.CASCADE)
 	scheduled_start = models.CharField(default='07:00', max_length=5)
 	scheduled_finish = models.CharField(default='12:00', max_length=5)
-	atomizer_power = models.CharField(max_length=10, choices=ATOMIZER_POWER, default=LOW)
+	atomizer_power = models.CharField(max_length=15, choices=ATOMIZER_POWER, default=NIVEL_3)
 
 	def __str__(self):
 		return '%d' % self.pk
@@ -129,7 +137,7 @@ class MovementLog(models.Model):
 class VolumeLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'vl_smart_atomizer', on_delete = models.CASCADE)
 	log_time = models.DateTimeField(auto_now_add = True)
-	volume = models.DecimalField(default = 0, max_digits=6, decimal_places=2)
+	volume = models.DecimalField(default = 0, max_digits=8, decimal_places=4)
 
 class SyncLog(models.Model):
 	smart_atomizer = models.ForeignKey(SmartAtomizer, related_name = 'sl_smart_atomizer', on_delete = models.CASCADE)

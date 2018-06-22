@@ -139,7 +139,7 @@ class NewSmartAtomizerForm(forms.ModelForm):
 				),
 				label='Interval de Sincronización',
 				max_length=5,
-				help_text="Rango aceptado 0.04 a 1. Ejemplo: 0.10"
+				help_text=""
 			)
 
 	volume = forms.DecimalField(
