@@ -76,7 +76,7 @@ urlpatterns = [
     url(r'^test_volume_log/(?P<pk>\d+)/(?P<volume>\d+(?:\.\d+)?)/$', device_requests.test_volume_log, name='test_volume_log'),
     url(r'^set_location/(?P<pk>\d+)/(?P<lat>-?\d+\.\d+)/(?P<lng>-?\d+\.\d+)/$', device_requests.set_location, name='set_location'),
     url(r'^get_location/(?P<pk>\d+)/(?P<cid>\d+)/(?P<lac>\d+)/(?P<mcc>\d+)/(?P<mnc>\d+)/$', device_requests.get_location, name='get_location'),
+    url(r'^test_activation/(?P<serial>\w+)/$', device_requests.test_activation, name='test_activation'),
     url(r'^ping_home/(?P<serial>\w+)/$', device_requests.ping_home, name='ping_home'),
-    url(r'^test_activation/(?P<pk>\w+)/$', device_requests.test_activation, name='test_activation'),
     url(r'^get_schedule/(?P<pk>\w+)/$', device_requests.get_schedule, name='get_schedule'),
 ]
