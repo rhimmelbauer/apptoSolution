@@ -135,7 +135,7 @@ class NewSmartAtomizerForm(forms.ModelForm):
 
 	sync_interval = forms.CharField(
 				widget = forms.TextInput(
-					attrs={ 'placeholder': '0.04'}
+					attrs={ 'placeholder': '7'}
 				),
 				label='Interval de Sincronización',
 				max_length=5,

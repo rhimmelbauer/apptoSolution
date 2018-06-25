@@ -13,6 +13,12 @@ import requests, json
 ENROLLED_NEW_DEVICE = "Enrolled new Device"
 DEVICE_SYNC_OK = "Device Synced Correctly"
 
+def ping_home(request, pk):
+	print("Ping home")
+	response = JsonResponse({'smart_atomizer': 'OK'})
+	return response
+	
+
 def test_volume_log(request, pk, volume):
 	print("logging volume")
 	smartAtomizer = get_object_or_404(SmartAtomizer, pk=pk)
