@@ -180,7 +180,14 @@ class NewSmartAtomizerScheduleForm(forms.ModelForm):
 		model = SmartAtomizerSchedule
 		fields = ['scheduled_start',
 				  'scheduled_finish',
-				  'atomizer_power',]
+				  'atomizer_power',
+				  'domingo',
+				  'lunes',
+				  'martes',
+				  'miercoles',
+				  'jueves',
+				  'viernes',
+				  'sabado',]
 
 class NewCheckUpForm(forms.ModelForm):
 	day = forms.DateField(

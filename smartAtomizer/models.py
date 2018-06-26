@@ -114,6 +114,13 @@ class SmartAtomizerSchedule(models.Model):
 	scheduled_start = models.CharField(default='07:00', max_length=5)
 	scheduled_finish = models.CharField(default='12:00', max_length=5)
 	atomizer_power = models.CharField(max_length=15, choices=ATOMIZER_POWER, default=NIVEL_3)
+	domingo = models.BooleanField(default=False)
+	lunes = models.BooleanField(default=True)
+	martes = models.BooleanField(default=True)
+	miercoles = models.BooleanField(default=True)
+	jueves = models.BooleanField(default=True)
+	viernes = models.BooleanField(default=True)
+	sabado = models.BooleanField(default=False)
 
 	def __str__(self):
 		return '%d' % self.pk
